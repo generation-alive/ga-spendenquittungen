@@ -8,6 +8,7 @@
     <mdc-drawer slot="drawer" toggle-on="toggle-drawer" temporary>
       <mdc-drawer-list>
         <mdc-drawer-item start-icon="people">Spender</mdc-drawer-item>
+        <mdc-drawer-divider class="divider-spacer"/>
         <mdc-drawer-item start-icon="settings">Einstellungen</mdc-drawer-item>
       </mdc-drawer-list>
     </mdc-drawer>
@@ -28,5 +29,8 @@ export default {
 </script>
 
 <style lang="sass">
+  .divider-spacer
+    margin-top: .5rem
+    margin-bottom: .5rem
 
 </style>
