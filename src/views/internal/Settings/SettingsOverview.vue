@@ -23,6 +23,12 @@
     </mdc-layout-cell>
     <mdc-layout-cell desktop=6 tablet=6 phone=12 >
       <mdc-headline>Allgemein</mdc-headline>
+      <settings-overview-card
+        :infos="{
+          'Zeitraum der Spendenbescheinigung': '01.2018 - 12.2018'
+        }"
+        routeOnEdit="/"
+      />
     </mdc-layout-cell>
   </mdc-layout-grid>
 </template>
