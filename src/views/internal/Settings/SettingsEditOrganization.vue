@@ -5,31 +5,15 @@
     </mdc-layout-cell>
     <mdc-layout-cell desktop=6 tablet=6 phone=12 >
       <mdc-headline>Verein</mdc-headline>
-      <settings-overview-card
-        :title="organization && organization.name"
-        :subtitle="organizationAddress"
-        :purposes="organizationPurposes"
-        :infos="organizationInfos"
-        :routeOnEdit="{name: 'settingsOrganization'}"
-      />
-    </mdc-layout-cell>
-    <mdc-layout-cell desktop=6 tablet=6 phone=12 >
-      <mdc-headline>Allgemein</mdc-headline>
-      <settings-overview-card
-        :infos="generalInfos"
-        :routeOnEdit="{name: 'settingsGeneral'}"
-      />
     </mdc-layout-cell>
   </mdc-layout-grid>
 </template>
 
 <script>
-import SettingsOverviewCard from './SettingsOverviewCard'
 import Organization from '@/store/models/Organization'
-import GeneralSettings from '@/store/models/GeneralSettings'
 
 export default {
-  name: 'SettingsOverview',
+  name: 'SettingsEditOrganization',
   computed: {
     organization () {
       return Organization.query().with('address').with('purpose').find(1)
@@ -51,16 +35,7 @@ export default {
         'Datum des Freistellungsbescheid': org.taxDate,
         'Veranlagungszeitraum': org.taxPeriod
       }
-    },
-    generalInfos () {
-      let generalSettings = GeneralSettings.find(1)
-      return generalSettings && {
-        'Zeitraum der Spendenbescheinigung': generalSettings.period
-      }
     }
-  },
-  components: {
-    SettingsOverviewCard
   }
 }
 </script>
