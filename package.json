@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@vuex-orm/core": "^0.31.2",
     "material-components-web": "^0.35.0",
     "vue": "^2.5.17",
     "vue-mdc-adapter": "^0.15.0",
