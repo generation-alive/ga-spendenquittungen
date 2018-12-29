@@ -12,21 +12,19 @@
         </mdc-list-item>
       </mdc-list>
     </mdc-card-text>
-    <mdc-card-text>
+    <mdc-card-text v-if="infos">
       <mdc-list two-line>
-        <mdc-list-item>
-          <span>Gummersbach</span>
-          <span slot="secondary">Finanzamt</span>
-        </mdc-list-item>
-        <mdc-list-item>
-          <span>212/5825/2063</span>
-          <span slot="secondary">Steuer Nummer</span>
+        <mdc-list-item v-for="(info, type) in infos" :key="type">
+          <span>{{info}}</span>
+          <span slot="secondary">{{type}}</span>
         </mdc-list-item>
       </mdc-list>
     </mdc-card-text>
-    <mdc-card-actions>
+    <mdc-card-actions v-if="routeOnEdit">
       <mdc-card-action-icons>
-        <mdc-card-action-icon icon="edit" />
+        <router-link :to="routeOnEdit" class="router-link-button">
+          <mdc-card-action-icon icon="edit" />
+        </router-link>
       </mdc-card-action-icons>
     </mdc-card-actions>
   </mdc-card>
@@ -46,11 +44,20 @@ export default {
     purposes: {
       type: Array,
       default: () => []
+    },
+    infos: {
+      type: Object,
+      default: null
+    },
+    routeOnEdit: {
+      type: [Object, String],
+      default: null
     }
   }
 }
 </script>
 
 <style lang="sass" scoped>
-
+  .router-link-button
+    text-decoration: none
 </style>
