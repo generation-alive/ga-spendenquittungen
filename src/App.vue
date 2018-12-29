@@ -5,10 +5,35 @@
 </template>
 
 <script>
+import Organization from '@/store/models/Organization'
+import GeneralSettings from '@/store/models/GeneralSettings'
 
 export default {
   data () {
     return {}
+  },
+  mounted () {
+    Organization.create({ data: {
+      id: 1,
+      name: 'Generation Alive e.V.',
+      address: {
+        street: 'Eisenbahnstraße',
+        houseNr: '23',
+        zip: '51645',
+        city: 'Gummersbach'
+      },
+      purpose: [
+        { desc: 'Förderung der Religion im In- und Ausland' },
+        { desc: 'Förderung der Volks- und Berufsbildung einschließlich Studentenhilfe' }
+      ],
+      taxName: 'Gummersbach',
+      taxNr: '212/5825/2063',
+      taxDate: '26.10.2016',
+      taxPeriod: '2015'
+    } })
+    GeneralSettings.create({ data: {
+      period: '01.2018 - 12.2018'
+    } })
   }
 }
 </script>

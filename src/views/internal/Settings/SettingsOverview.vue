@@ -6,27 +6,17 @@
     <mdc-layout-cell desktop=6 tablet=6 phone=12 >
       <mdc-headline>Verein</mdc-headline>
       <settings-overview-card
-        title="Generation Alive e.V."
-        subtitle="Eisenbahnstraße 23, 51645 Gummersbach"
-        :purposes="[
-          'Förderung der Religion im In- und Ausland',
-          'Förderung der Volks- und Berufsbildung einschließlich Studentenhilfe'
-        ]"
-        :infos="{
-          Finanzamt: 'Gummersbach',
-          StNr: '212/5825/2063',
-          'Datum des Freistellungsbescheid': '26.10.2016',
-          'Veranlagungszeitraum': '2015'
-        }"
+        :title="organization && organization.name"
+        :subtitle="organizationAddress"
+        :purposes="organizationPurposes"
+        :infos="organizationInfos"
         routeOnEdit="/"
       />
     </mdc-layout-cell>
     <mdc-layout-cell desktop=6 tablet=6 phone=12 >
       <mdc-headline>Allgemein</mdc-headline>
       <settings-overview-card
-        :infos="{
-          'Zeitraum der Spendenbescheinigung': '01.2018 - 12.2018'
-        }"
+        :infos="generalInfos"
         routeOnEdit="/"
       />
     </mdc-layout-cell>
@@ -35,8 +25,40 @@
 
 <script>
 import SettingsOverviewCard from './SettingsOverviewCard'
+import Organization from '@/store/models/Organization'
+import GeneralSettings from '@/store/models/GeneralSettings'
 
 export default {
+  name: 'SettingsOverview',
+  computed: {
+    organization () {
+      return Organization.query().with('address').with('purpose').find(1)
+    },
+    organizationAddress () {
+      let address = this.organization && this.organization.address
+      return address ? `${address.street} ${address.houseNr}, ${address.zip} ${address.city}` : ''
+    },
+    organizationPurposes () {
+      return (this.organization &&
+        this.organization.purpose &&
+        this.organization.purpose.map((purpose) => purpose.desc))
+    },
+    organizationInfos () {
+      let org = this.organization
+      return org && {
+        Finanzamt: org.taxName,
+        StNr: org.taxNr,
+        'Datum des Freistellungsbescheid': org.taxDate,
+        'Veranlagungszeitraum': org.taxPeriod
+      }
+    },
+    generalInfos () {
+      let generalSettings = GeneralSettings.find(1)
+      return generalSettings && {
+        'Zeitraum der Spendenbescheinigung': generalSettings.period
+      }
+    }
+  },
   components: {
     SettingsOverviewCard
   }

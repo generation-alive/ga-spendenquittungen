@@ -19,3 +19,5 @@ export default class Organization extends Model {
     }
   }
 }
+
+window.Organization = Organization
