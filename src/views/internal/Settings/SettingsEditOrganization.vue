@@ -47,15 +47,12 @@ export default {
       street: '',
       houseNr: '',
       zip: '',
-      city: ''
+      city: '',
+      purposes: [{ '$id': 1, 'id': 1, 'organizationId': 1, 'desc': 'Förderung der Religion im In- und Ausland' }, { '$id': 2, 'id': 2, 'organizationId': 1, 'desc': 'Förderung der Volks- und Berufsbildung einschließlich Studentenhilfe' }]
+      // purposes: []
     }
   },
   computed: {
-    purposes: {
-      get () {
-        return this.organization && this.organization.purpose
-      }
-    },
     organization () {
       return Organization.query().with('address').with('purpose').find(1)
     },
@@ -76,6 +73,39 @@ export default {
         'Datum des Freistellungsbescheid': org.taxDate,
         'Veranlagungszeitraum': org.taxPeriod
       }
+    }
+  },
+  methods: {
+    addEmptyPurposeAsLast (val) {
+      let isEmpty = val && val.length === 0
+      let hasLastContent = !!(val && val.length && val[val.length - 1] && val[val.length - 1].desc)
+      if (isEmpty || hasLastContent) {
+        val.push({ desc: '' })
+      }
+    },
+    removeEmptyPurposeNotLast (val) {
+      let emptyIndex
+      for (var i = 0; i < val.length; i++) {
+        if (val[i] && val[i].desc === '') {
+          emptyIndex = i
+          break
+        }
+      }
+      let hasEmptyIndex = emptyIndex === 0 || emptyIndex
+      let isNotLastIndex = emptyIndex !== val.length - 1
+      if (hasEmptyIndex && isNotLastIndex) {
+        val.splice(emptyIndex, 1)
+      }
+    }
+  },
+  watch: {
+    purposes: {
+      handler (val) {
+        this.addEmptyPurposeAsLast(val)
+        this.removeEmptyPurposeNotLast(val)
+      },
+      deep: true,
+      immediate: true
     }
   }
 }
