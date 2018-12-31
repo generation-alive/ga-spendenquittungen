@@ -4,6 +4,7 @@
       <mdc-display>Bearbeiten: Verein</mdc-display>
     </mdc-layout-cell>
     <mdc-layout-cell desktop=6 tablet=6 phone=12>
+      <mdc-subheading>Verein</mdc-subheading>
       <div class="icon-row">
         <mdc-icon icon="person" class="icon-row__icon"/>
         <div class="icon-row__content">
@@ -24,6 +25,7 @@
           <mdc-textfield v-model="city" label="Ort" outline class="two-third"/>
         </div>
       </div>
+      <mdc-subheading>Vereinszweck</mdc-subheading>
       <div v-for="(purpose, index) in purposes" :key="purpose.$id" class="icon-row">
         <mdc-icon v-if="index === 0" icon="flag" class="icon-row__icon"/>
         <mdc-icon v-else class="icon-row__icon"/>
@@ -31,7 +33,21 @@
           <mdc-textfield v-model="purpose.desc" :label="`Zweck ${index + 1}`" outline class="full"/>
         </div>
       </div>
-      {{purposes}}
+      <mdc-subheading>Freistellungsbescheid</mdc-subheading>
+      <div class="icon-row">
+        <mdc-icon icon="assignment_turned_in" class="icon-row__icon"/>
+        <div class="icon-row__content">
+          <mdc-textfield v-model="taxName" label="Name des Finanzamtes" outline class="half"/>
+          <mdc-textfield v-model="taxNr" label="Steuernummer" outline class="half"/>
+        </div>
+      </div>
+      <div class="icon-row">
+        <mdc-icon class="icon-row__icon"/>
+        <div class="icon-row__content">
+          <mdc-textfield v-model="taxDate" label="Datum des Bescheids" outline class="half"/>
+          <mdc-textfield v-model="taxPeriod" label="Veranlagungszeitraum" outline class="half"/>
+        </div>
+      </div>
     </mdc-layout-cell>
   </mdc-layout-grid>
 </template>
@@ -48,8 +64,11 @@ export default {
       houseNr: '',
       zip: '',
       city: '',
-      purposes: [{ '$id': 1, 'id': 1, 'organizationId': 1, 'desc': 'Förderung der Religion im In- und Ausland' }, { '$id': 2, 'id': 2, 'organizationId': 1, 'desc': 'Förderung der Volks- und Berufsbildung einschließlich Studentenhilfe' }]
-      // purposes: []
+      purposes: [],
+      taxName: '',
+      taxNr: '',
+      taxDate: '',
+      taxPeriod: ''
     }
   },
   computed: {
@@ -133,6 +152,8 @@ export default {
     width: 100%
   .two-third
     width: 65%
+  .half
+    width: 47.5%
   .one-third
     width: 30%
 </style>
