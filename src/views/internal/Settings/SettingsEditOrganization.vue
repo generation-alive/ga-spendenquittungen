@@ -24,6 +24,14 @@
           <mdc-textfield v-model="city" label="Ort" outline class="two-third"/>
         </div>
       </div>
+      <div v-for="(purpose, index) in purposes" :key="purpose.$id" class="icon-row">
+        <mdc-icon v-if="index === 0" icon="flag" class="icon-row__icon"/>
+        <mdc-icon v-else class="icon-row__icon"/>
+        <div class="icon-row__content">
+          <mdc-textfield v-model="purpose.desc" :label="`Zweck ${index + 1}`" outline class="full"/>
+        </div>
+      </div>
+      {{purposes}}
     </mdc-layout-cell>
   </mdc-layout-grid>
 </template>
@@ -43,6 +51,11 @@ export default {
     }
   },
   computed: {
+    purposes: {
+      get () {
+        return this.organization && this.organization.purpose
+      }
+    },
     organization () {
       return Organization.query().with('address').with('purpose').find(1)
     },
