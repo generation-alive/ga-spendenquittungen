@@ -26,7 +26,7 @@
         </div>
       </div>
       <mdc-subheading>Vereinszweck</mdc-subheading>
-      <div v-for="(purpose, index) in purposes" :key="purpose.$id" class="icon-row">
+      <div v-for="(purpose, index) in purpose" :key="purpose.$id" class="icon-row">
         <mdc-icon v-if="index === 0" icon="flag" class="icon-row__icon"/>
         <mdc-icon v-else class="icon-row__icon"/>
         <div class="icon-row__content">
@@ -53,25 +53,32 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import Organization from '@/store/models/Organization'
+import Purpose from '@/store/models/Purpose'
+import { mapModelProps } from '@/store/helpers/mapModel'
 
 export default {
   name: 'SettingsEditOrganization',
   data () {
     return {
-      name: '',
-      street: '',
-      houseNr: '',
-      zip: '',
-      city: '',
-      purposes: [],
-      taxName: '',
-      taxNr: '',
-      taxDate: '',
-      taxPeriod: ''
     }
   },
   computed: {
+    ...mapModelProps(Organization, 1, [
+      'purpose'
+    ], { withModels: ['purpose'], method: 'insertOrUpdate' }),
+    ...mapModelProps(Organization, 1, [
+      'name',
+      'address.street',
+      'address.houseNr',
+      'address.zip',
+      'address.city',
+      'taxName',
+      'taxNr',
+      'taxDate',
+      'taxPeriod'
+    ], { withModels: ['address'] }),
     organization () {
       return Organization.query().with('address').with('purpose').find(1)
     },
@@ -99,27 +106,30 @@ export default {
       let isEmpty = val && val.length === 0
       let hasLastContent = !!(val && val.length && val[val.length - 1] && val[val.length - 1].desc)
       if (isEmpty || hasLastContent) {
-        val.push({ desc: '' })
+        this.purpose = [...this.purpose, { desc: '' }]
       }
     },
     removeEmptyPurposeNotLast (val) {
+      if (!val) {
+        return
+      }
       let emptyIndex
-      for (var i = 0; i < val.length; i++) {
-        if (val[i] && val[i].desc === '') {
-          emptyIndex = i
+      for (let purpose of val) {
+        if (purpose.desc === '') {
+          emptyIndex = purpose.id
           break
         }
       }
-      let hasEmptyIndex = emptyIndex === 0 || emptyIndex
-      let isNotLastIndex = emptyIndex !== val.length - 1
+      let hasEmptyIndex = !!emptyIndex
+      let isNotLastIndex = emptyIndex !== _.last(val).id
       if (hasEmptyIndex && isNotLastIndex) {
-        val.splice(emptyIndex, 1)
+        Purpose.delete(emptyIndex)
       }
     }
   },
   watch: {
-    purposes: {
-      handler (val) {
+    purpose: {
+      handler (val, oldVal) {
         this.addEmptyPurposeAsLast(val)
         this.removeEmptyPurposeNotLast(val)
       },

@@ -12,7 +12,7 @@ export default {
   data () {
     return {}
   },
-  mounted () {
+  beforeCreate () {
     Organization.create({ data: {
       id: 1,
       name: 'Generation Alive e.V.',

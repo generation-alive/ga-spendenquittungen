@@ -6,7 +6,7 @@
     </mdc-card-header>
     <mdc-card-text v-if="purposes && purposes.length">
       <mdc-list>
-        <mdc-list-item v-for="(purpose, index) in purposes" :key="index">
+        <mdc-list-item v-for="(purpose, index) in purposesNotEmpty" :key="index">
           <mdc-icon slot="start-detail" icon="flag" />
           {{purpose}}
         </mdc-list-item>
@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   props: {
     title: {
@@ -52,6 +54,11 @@ export default {
     routeOnEdit: {
       type: [Object, String],
       default: null
+    }
+  },
+  computed: {
+    purposesNotEmpty () {
+      return _.filter(this.purposes, p => !!p)
     }
   }
 }
