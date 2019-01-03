@@ -2,6 +2,7 @@
   <mdc-layout-grid>
     <mdc-layout-cell span=12 >
       <mdc-display>Bearbeiten: Verein</mdc-display>
+      <mdc-button @click="$router.push({name: 'settingsOverview'})" raised><i class="material-icons mdc-button__icon">arrow_back</i>Zurück</mdc-button>
     </mdc-layout-cell>
     <mdc-layout-cell desktop=6 tablet=6 phone=12>
       <mdc-subheading>Verein</mdc-subheading>
@@ -48,6 +49,9 @@
           <mdc-textfield v-model="taxPeriod" label="Veranlagungszeitraum" outline class="half"/>
         </div>
       </div>
+    </mdc-layout-cell>
+    <mdc-layout-cell span=12 >
+      <mdc-button @click="$router.push({name: 'settingsOverview'})" raised><i class="material-icons mdc-button__icon">arrow_back</i>Zurück</mdc-button>
     </mdc-layout-cell>
   </mdc-layout-grid>
 </template>
