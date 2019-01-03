@@ -82,28 +82,7 @@ export default {
       'taxNr',
       'taxDate',
       'taxPeriod'
-    ], { withModels: ['address'] }),
-    organization () {
-      return Organization.query().with('address').with('purpose').find(1)
-    },
-    organizationAddress () {
-      let address = this.organization && this.organization.address
-      return address ? `${address.street} ${address.houseNr}, ${address.zip} ${address.city}` : ''
-    },
-    organizationPurposes () {
-      return (this.organization &&
-        this.organization.purpose &&
-        this.organization.purpose.map((purpose) => purpose.desc))
-    },
-    organizationInfos () {
-      let org = this.organization
-      return org && {
-        Finanzamt: org.taxName,
-        StNr: org.taxNr,
-        'Datum des Freistellungsbescheid': org.taxDate,
-        'Veranlagungszeitraum': org.taxPeriod
-      }
-    }
+    ], { withModels: ['address'] })
   },
   methods: {
     addEmptyPurposeAsLast (val) {
