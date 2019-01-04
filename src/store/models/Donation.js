@@ -15,3 +15,5 @@ export default class Donation extends Model {
     }
   }
 }
+
+window.Donation = Donation

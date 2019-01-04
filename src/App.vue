@@ -7,6 +7,7 @@
 <script>
 import Organization from '@/store/models/Organization'
 import GeneralSettings from '@/store/models/GeneralSettings'
+import Donator from '@/store/models/Donator'
 
 export default {
   data () {
@@ -33,6 +34,30 @@ export default {
     } })
     GeneralSettings.create({ data: {
       period: '01.2018 - 12.2018'
+    } })
+    Donator.create({ data: {
+      id: 1,
+      name: 'Max Mustermann',
+      address: {
+        street: 'Musterstr.',
+        houseNr: '24',
+        zip: '12345',
+        city: 'Musterstadt'
+      },
+      donations: [
+        {
+          date: '24.12.2018',
+          isMemberschipFee: true,
+          isWaiverOfRefund: false,
+          sum: 120
+        },
+        {
+          date: '24.12.2018',
+          isMemberschipFee: false,
+          isWaiverOfRefund: false,
+          sum: 20
+        }
+      ]
     } })
   }
 }
