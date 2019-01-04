@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import { Model } from '@vuex-orm/core'
 import Address from './Address'
 import Donation from './Donation'
@@ -13,6 +15,10 @@ export default class Donator extends Model {
       address: this.morphOne(Address, 'ownerId', 'ownerType'),
       donations: this.hasMany(Donation, 'donatorId')
     }
+  }
+
+  get totalSum () {
+    return _.sumBy(this.donations, 'sum')
   }
 }
 
