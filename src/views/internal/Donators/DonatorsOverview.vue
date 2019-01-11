@@ -6,7 +6,7 @@
     <mdc-layout-cell desktop=6 tablet=6 phone=12 >
       <mdc-list two-line >
         <mdc-list-item v-for="donator in donators" :key="donator.id">
-          <mdc-icon slot="start-detail" icon="face" />
+          <mdc-icon slot="start-detail" icon="account_circle" />
           <span>{{donator.name}}</span>
           <span slot="secondary">Summe: {{donator.totalSum | currency}}</span>
           <mdc-button slot="end-detail" @click="$router.push({name: 'donatorsEdit', params: {id: donator.id}})">
