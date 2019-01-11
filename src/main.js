@@ -3,8 +3,18 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import VueMDCAdapter from 'vue-mdc-adapter'
+import VueCurrencyFilter from 'vue-currency-filter'
 
 Vue.use(VueMDCAdapter)
+
+Vue.use(VueCurrencyFilter, {
+  symbol: '€',
+  thousandsSeparator: '.',
+  fractionCount: 2,
+  fractionSeparator: ',',
+  symbolPosition: 'back',
+  symbolSpacing: true
+})
 
 Vue.config.productionTip = false
 
