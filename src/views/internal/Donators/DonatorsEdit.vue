@@ -47,6 +47,7 @@
 
 <script>
 import Donator from '@/store/models/Donator'
+import _ from 'lodash'
 
 export default {
   name: 'DonatorsEdit',
@@ -58,23 +59,41 @@ export default {
       zip: '',
       city: '',
       donations: [
-        { id: 1, date: '12.12.2012', sum: 123, isMemberschipFee: false },
-        { id: 2, date: '12.12.2012', sum: 123, isMemberschipFee: true },
-        { id: 3, date: '12.12.2012', sum: 123, isMemberschipFee: false },
-        { id: 4, date: '12.12.2012', sum: 123, isMemberschipFee: false },
-        { id: 5, date: '12.12.2012', sum: 123, isMemberschipFee: false },
-        { id: 6, date: '12.12.2012', sum: 123, isMemberschipFee: false },
-        { id: 7, date: '12.12.2012', sum: 123, isMemberschipFee: false },
-        { id: 8, date: '12.12.2012', sum: 123, isMemberschipFee: false },
-        { id: 9, date: '12.12.2012', sum: 123, isMemberschipFee: false },
-        { id: 10, date: '12.12.2012', sum: 123, isMemberschipFee: false },
-        { id: 11, date: '12.12.2012', sum: 123, isMemberschipFee: false }
+        { id: 1, date: '12.12.2012', sum: '123', isMemberschipFee: false },
+        { id: 2, date: '12.12.2012', sum: '123', isMemberschipFee: true },
+        { id: 3, date: '12.12.2012', sum: '123', isMemberschipFee: false },
+        { id: 4, date: '12.12.2012', sum: '123', isMemberschipFee: false },
+        { id: 5, date: '12.12.2012', sum: '123', isMemberschipFee: false },
+        { id: 6, date: '12.12.2012', sum: '123', isMemberschipFee: false },
+        { id: 7, date: '12.12.2012', sum: '123', isMemberschipFee: false },
+        { id: 8, date: '12.12.2012', sum: '123', isMemberschipFee: false },
+        { id: 9, date: '12.12.2012', sum: '123', isMemberschipFee: false },
+        { id: 10, date: '12.12.2012', sum: '123', isMemberschipFee: false },
+        { id: 11, date: '12.12.2012', sum: '123', isMemberschipFee: false }
       ]
     }
   },
   computed: {
     donators () {
       return Donator.query().with('donations').all()
+    }
+  },
+  methods: {
+    donationsWatcher (newDonations) {
+      var isLastFieldWithData = this.isDonationWithContent(_.last(newDonations))
+      if (isLastFieldWithData) {
+        this.donations.push({ id: _.uniqueId('new_'), date: '', sum: '', isMemberschipFee: false })
+      }
+    },
+    isDonationWithContent (donation) {
+      return donation && (donation.date || donation.sum)
+    }
+  },
+  watch: {
+    donations: {
+      handler: 'donationsWatcher',
+      deep: true,
+      immediate: true
     }
   }
 }
