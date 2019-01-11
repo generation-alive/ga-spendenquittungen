@@ -51,6 +51,11 @@ export default new Router({
           name: 'donatorsEdit',
           component: DonatorsEdit,
           props: true
+        },
+        {
+          path: 'donators/create',
+          name: 'donatorsCreate',
+          component: DonatorsEdit
         }
       ]
     }

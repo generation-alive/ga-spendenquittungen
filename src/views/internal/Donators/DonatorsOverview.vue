@@ -15,6 +15,7 @@
         </mdc-list-item>
       </mdc-list>
     </mdc-layout-cell>
+    <mdc-fab class="fab" icon="add" @click="$router.push({name: 'donatorsCreate'})" />
   </mdc-layout-grid>
 </template>
 
@@ -32,5 +33,12 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+  .fab
+    position: fixed
+    bottom: 1rem
+    right: 1rem
+    @media(min-width: 1024px)
+      bottom: 1.5rem
+      right: 1.5rem
 
 </style>
