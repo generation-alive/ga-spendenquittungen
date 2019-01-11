@@ -13,7 +13,7 @@ Vue.use(VueCurrencyFilter, {
   fractionCount: 2,
   fractionSeparator: ',',
   symbolPosition: 'back',
-  symbolSpacing: true
+  symbolSpacing: false
 })
 
 Vue.config.productionTip = false

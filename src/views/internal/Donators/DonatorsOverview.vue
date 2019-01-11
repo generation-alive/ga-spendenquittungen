@@ -9,7 +9,9 @@
           <mdc-icon slot="start-detail" icon="face" />
           <span>{{donator.name}}</span>
           <span slot="secondary">Summe: {{donator.totalSum | currency}}</span>
-          <mdc-button slot="end-detail"><mdc-icon class="mdc-button__icon" icon="create" style="font-size: 18px"/>Bearbeiten</mdc-button>
+          <mdc-button slot="end-detail" @click="$router.push({name: 'donatorsEdit', params: {id: donator.id}})">
+            <mdc-icon class="mdc-button__icon" icon="create" style="font-size: 18px"/>Bearbeiten
+          </mdc-button>
         </mdc-list-item>
       </mdc-list>
     </mdc-layout-cell>
