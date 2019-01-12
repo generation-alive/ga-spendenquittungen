@@ -1,32 +1,32 @@
 <template>
   <mdc-layout-grid>
     <mdc-layout-cell span=12 >
-      <mdc-display>Spender bearbeiten: MAXI</mdc-display>
+      <mdc-display>Spender bearbeiten: {{donator.name}}</mdc-display>
     </mdc-layout-cell>
     <mdc-layout-cell desktop=8 tablet=10 phone=12>
       <mdc-subheading>Spender</mdc-subheading>
       <div class="icon-row">
         <mdc-icon icon="person" class="icon-row__icon"/>
         <div class="icon-row__content">
-          <mdc-textfield v-model="name" label="Name" outline class="full"/>
+          <mdc-textfield v-model="donator.name" label="Name" outline class="full"/>
         </div>
       </div>
       <div class="icon-row">
         <mdc-icon icon="person_pin_circle" class="icon-row__icon"/>
         <div class="icon-row__content">
-          <mdc-textfield v-model="street" label="Straße" outline class="two-third"/>
-          <mdc-textfield v-model="houseNr" label="Nummer" outline class="one-third"/>
+          <mdc-textfield v-model="donator.address.street" label="Straße" outline class="two-third"/>
+          <mdc-textfield v-model="donator.address.houseNr" label="Nummer" outline class="one-third"/>
         </div>
       </div>
       <div class="icon-row">
         <mdc-icon class="icon-row__icon"/>
         <div class="icon-row__content">
-          <mdc-textfield v-model="zip" label="PLZ" outline class="one-third"/>
-          <mdc-textfield v-model="city" label="Ort" outline class="two-third"/>
+          <mdc-textfield v-model="donator.address.zip" label="PLZ" outline class="one-third"/>
+          <mdc-textfield v-model="donator.address.city" label="Ort" outline class="two-third"/>
         </div>
       </div>
       <mdc-subheading>Spenden</mdc-subheading>
-      <div v-for="(donation, index) in donations" :key="donation.id" class="icon-row">
+      <div v-for="(donation, index) in donator.donations" :key="donation.id" class="icon-row">
         <span class="icon-row__icon icon-row__icon--text">{{index + 1}}</span>
         <div class="icon-row__content">
           <mdc-textfield v-model="donation.date" label="Datum" outline class="one-third"/>
@@ -47,30 +47,15 @@
 
 <script>
 import Donator from '@/store/models/Donator'
+import Address from '@/store/models/Address'
+import Donation from '@/store/models/Donation'
 import _ from 'lodash'
 
 export default {
   name: 'DonatorsEdit',
   data () {
     return {
-      name: '',
-      street: '',
-      houseNr: '',
-      zip: '',
-      city: '',
-      donations: [
-        { id: 1, date: '12.12.2012', sum: '123', isMemberschipFee: false },
-        { id: 2, date: '12.12.2012', sum: '123', isMemberschipFee: true },
-        { id: 3, date: '12.12.2012', sum: '123', isMemberschipFee: false },
-        { id: 4, date: '12.12.2012', sum: '123', isMemberschipFee: false },
-        { id: 5, date: '12.12.2012', sum: '123', isMemberschipFee: false },
-        { id: 6, date: '12.12.2012', sum: '123', isMemberschipFee: false },
-        { id: 7, date: '12.12.2012', sum: '123', isMemberschipFee: false },
-        { id: 8, date: '12.12.2012', sum: '123', isMemberschipFee: false },
-        { id: 9, date: '12.12.2012', sum: '123', isMemberschipFee: false },
-        { id: 10, date: '12.12.2012', sum: '123', isMemberschipFee: false },
-        { id: 11, date: '12.12.2012', sum: '123', isMemberschipFee: false }
-      ]
+      donator: new Donator()
     }
   },
   computed: {
@@ -78,35 +63,62 @@ export default {
       return Donator.query().with('donations').all()
     }
   },
+  props: {
+    id: {
+      type: [Number, String],
+      default: null
+    }
+  },
   methods: {
     donationsWatcher (newDonations) {
       // auto add empty donation as last
       var isLastFieldWithData = this.isDonationWithContent(_.last(newDonations))
       if (isLastFieldWithData) {
-        this.donations.push({ id: _.uniqueId('new_'), date: '', sum: '', isMemberschipFee: false })
+        this.donator.donations.push({ id: _.uniqueId('new_'), date: '', sum: '', isMemberschipFee: false })
       }
 
       // auto remove other empty donations
-      for (var index in this.donations) {
+      for (var index in this.donator.donations) {
         if (
-          _.toNumber(index) !== _.toNumber(this.donations.length - 1) &&
-          !this.isDonationWithContent(this.donations[index])
+          _.toNumber(index) !== _.toNumber(this.donator.donations.length - 1) &&
+          !this.isDonationWithContent(this.donator.donations[index])
         ) {
-          _.pullAt(this.donations, [index])
-          this.donations = _.clone(this.donations)
+          _.pullAt(this.donator.donations, [index])
+          this.donator.donations = _.clone(this.donator.donations)
         }
       }
     },
     isDonationWithContent (donation) {
       return donation && (donation.date || donation.sum)
+    },
+    idWatcher (newId) {
+      if (newId) {
+        this.donator = _.cloneDeep(Donator.query().with('donations').with('address').find(newId))
+      } else {
+        this.donator = new Donator()
+        this.donator.address = new Address()
+        this.donator.donations = [new Donation()]
+      }
+      // convert all sum numbers to string
+      for (let donation of this.donator.donations) {
+        if (_.isNumber(donation.sum)) {
+          donation.sum = donation.sum.toString()
+        }
+      }
     }
   },
   watch: {
-    donations: {
+    'donator.donations': {
       handler: 'donationsWatcher',
       deep: true,
       immediate: true
+    },
+    id: {
+      handler: 'idWatcher',
+      immediate: true
     }
+  },
+  created () {
   }
 }
 </script>
