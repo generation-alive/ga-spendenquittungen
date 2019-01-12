@@ -80,9 +80,21 @@ export default {
   },
   methods: {
     donationsWatcher (newDonations) {
+      // auto add empty donation as last
       var isLastFieldWithData = this.isDonationWithContent(_.last(newDonations))
       if (isLastFieldWithData) {
         this.donations.push({ id: _.uniqueId('new_'), date: '', sum: '', isMemberschipFee: false })
+      }
+
+      // auto remove other empty donations
+      for (var index in this.donations) {
+        if (
+          _.toNumber(index) !== _.toNumber(this.donations.length - 1) &&
+          !this.isDonationWithContent(this.donations[index])
+        ) {
+          _.pullAt(this.donations, [index])
+          this.donations = _.clone(this.donations)
+        }
       }
     },
     isDonationWithContent (donation) {
