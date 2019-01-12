@@ -1,7 +1,13 @@
 <template>
   <mdc-layout-grid>
     <mdc-layout-cell span=12 >
-      <mdc-display>Spender bearbeiten: {{donator.name}}</mdc-display>
+      <mdc-display>Spender {{verb}}{{donator.name ? ': ' : ''}}{{donator.name}}</mdc-display>
+      <mdc-button class="button" @click="$router.push({name: 'donatorsOverview'})">
+        <i class="material-icons mdc-button__icon">arrow_back</i>Zurück
+      </mdc-button>
+      <mdc-button class="button" @click="onSave" raised>
+        <i class="material-icons mdc-button__icon">save</i>Speichern
+      </mdc-button>
     </mdc-layout-cell>
     <mdc-layout-cell desktop=8 tablet=10 phone=12>
       <mdc-subheading>Spender</mdc-subheading>
@@ -29,8 +35,16 @@
       <div v-for="(donation, index) in donator.donations" :key="donation.id" class="icon-row">
         <span class="icon-row__icon icon-row__icon--text">{{index + 1}}</span>
         <div class="icon-row__content">
-          <mdc-textfield v-model="donation.date" label="Datum" outline class="one-third"/>
-          <mdc-textfield v-model="donation.sum" label="Betrag" outline class="one-third"/>
+          <mdc-textfield
+            v-model="donation.date"
+            :valid="index === donator.donations.length - 1 || isValidDate(donation.date)"
+            label="Datum" outline class="one-third"
+          />
+          <mdc-textfield
+            v-model="donation.sum"
+            :valid="index === donator.donations.length - 1 || isValidSum(donation.sum)"
+            label="Betrag" outline class="one-third"
+          />
           <div class="toggle-container one-third">
             <mdc-icon-toggle class="toggle" v-model="donation.isMemberschipFee"
               :toggle-on="{icon:'person', label: 'Mitgliedsbeitrag'}"
@@ -41,6 +55,14 @@
           </div>
         </div>
       </div>
+    </mdc-layout-cell>
+    <mdc-layout-cell span=12 >
+      <mdc-button class="button" @click="$router.push({name: 'donatorsOverview'})">
+        <i class="material-icons mdc-button__icon">arrow_back</i>Zurück
+      </mdc-button>
+      <mdc-button class="button" @click="onSave" raised>
+        <i class="material-icons mdc-button__icon">save</i>Speichern
+      </mdc-button>
     </mdc-layout-cell>
   </mdc-layout-grid>
 </template>
@@ -59,8 +81,8 @@ export default {
     }
   },
   computed: {
-    donators () {
-      return Donator.query().with('donations').all()
+    verb () {
+      return this.id ? 'bearbeiten' : 'erstellen'
     }
   },
   props: {
@@ -102,19 +124,28 @@ export default {
       // convert all sum numbers to string
       for (let donation of this.donator.donations) {
         if (_.isNumber(donation.sum)) {
-          donation.sum = donation.sum.toString()
+          donation.sum = donation.sum ? donation.sum.toString() : ''
         }
       }
+    },
+    onSave () {
+
+    },
+    isValidDate (date) {
+      return /^[0-3]?\d\.[0-1]?\d\.\d{4}$/.test(date)
+    },
+    isValidSum (sum) {
+      return !!(sum && /^\d*(,\d\d?)?$/.test(sum))
     }
   },
   watch: {
+    id: {
+      handler: 'idWatcher',
+      immediate: true
+    },
     'donator.donations': {
       handler: 'donationsWatcher',
       deep: true,
-      immediate: true
-    },
-    id: {
-      handler: 'idWatcher',
       immediate: true
     }
   },
@@ -124,6 +155,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+  .button
+    margin-right: 1rem
   .icon-row
     display: flex
 
