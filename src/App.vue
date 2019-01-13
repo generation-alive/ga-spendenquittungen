@@ -35,7 +35,7 @@ export default {
     GeneralSettings.create({ data: {
       period: '01.2018 - 12.2018'
     } })
-    Donator.create({ data: {
+    Donator.insert({ data: {
       id: 1,
       name: 'Max Mustermann',
       address: {

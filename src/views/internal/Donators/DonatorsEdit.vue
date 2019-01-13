@@ -64,6 +64,7 @@
         <i class="material-icons mdc-button__icon">save</i>Speichern
       </mdc-button>
     </mdc-layout-cell>
+    <mdc-snackbar ref="snackbar"/>
   </mdc-layout-grid>
 </template>
 
@@ -124,18 +125,54 @@ export default {
       // convert all sum numbers to string
       for (let donation of this.donator.donations) {
         if (_.isNumber(donation.sum)) {
-          donation.sum = donation.sum ? donation.sum.toString() : ''
+          donation.sum = donation.sum ? _.replace(donation.sum.toString(), '.', ',') : ''
         }
       }
-    },
-    onSave () {
-
     },
     isValidDate (date) {
       return /^[0-3]?\d\.[0-1]?\d\.\d{4}$/.test(date)
     },
     isValidSum (sum) {
       return !!(sum && /^\d*(,\d\d?)?$/.test(sum))
+    },
+    async onSave () {
+      // check, if all data is valid
+      var self = this
+      let foundIndex = _.findIndex(this.donator.donations, ({ date, sum }) => {
+        return !self.isValidSum(sum) || !self.isValidDate(date)
+      })
+      let allValid = (
+        foundIndex === this.donator.donations.length - 1 ||
+        foundIndex === -1
+      )
+
+      // if not, show a snackbar and return
+      if (!allValid) {
+        this.$refs.snackbar.show({ message: '😱 Einige Daten sind ungültig 😱' })
+        return
+      }
+
+      // if valid, save to store and go back to overview
+      var donator = _.cloneDeep(this.donator)
+      donator.donations = _.filter(donator.donations, this.isDonationWithContent)
+      donator.donations = _.map(donator.donations, (donation) => {
+        var id = _.startsWith(donation.id, 'new_') ? undefined : donation.id
+        return {
+          id,
+          date: donation.date,
+          isMemberschipFee: donation.isMemberschipFee,
+          isWaiverOfRefund: donation.isWaiverOfRefund,
+          sum: _.toNumber(_.replace(donation.sum, ',', '.'))
+        }
+        // return { ...donation, , id }
+      })
+      if (!this.id) {
+        donator.id = _.last(Donator.all()).id + 1
+      }
+      Donator.insert({
+        data: donator
+      })
+      this.$router.push({ name: 'donatorsOverview' })
     }
   },
   watch: {

@@ -20,7 +20,7 @@ export default new Router({
       children: [
         {
           path: 'settings',
-          redirect: 'settingsOverview'
+          redirect: { name: 'settingsOverview' }
         },
         {
           path: 'settings/overview',
@@ -39,7 +39,7 @@ export default new Router({
         },
         {
           path: 'donators',
-          redirect: 'donatorsOverview'
+          redirect: { name: 'donatorsOverview' }
         },
         {
           path: 'donators/overview',
