@@ -155,9 +155,9 @@ export default {
         this.donator = _.cloneDeep(Donator.query().with('donations').with('address').find(newId))
       } else {
         this.donator = new Donator()
-        this.donator.address = new Address()
-        this.donator.donations = [new Donation()]
       }
+      this.donator.address = this.donator.address || new Address()
+      this.donator.donations = this.donator.donations && this.donator.donations.length ? this.donator.donations : [new Donation()]
       // convert all sum numbers to string
       for (let donation of this.donator.donations) {
         if (_.isNumber(donation.sum)) {
