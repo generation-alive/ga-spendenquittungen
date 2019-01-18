@@ -8,6 +8,8 @@
 import Organization from '@/store/models/Organization'
 import GeneralSettings from '@/store/models/GeneralSettings'
 import Donator from '@/store/models/Donator'
+import persons from '@/assets/persons'
+import importDataBase from '@/helpers/importDatabase'
 
 export default {
   data () {
@@ -59,6 +61,7 @@ export default {
         }
       ]
     } })
+    importDataBase(persons)
   }
 }
 </script>
