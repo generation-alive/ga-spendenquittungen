@@ -7,63 +7,30 @@
 <script>
 import Organization from '@/store/models/Organization'
 import GeneralSettings from '@/store/models/GeneralSettings'
-import Donator from '@/store/models/Donator'
-import persons from '@/assets/persons'
-import juristics from '@/assets/juristics'
-import { importPersons, importJuristics } from '@/helpers/importData'
+// import Donator from '@/store/models/Donator'
+// import persons from '@/assets/persons'
+// import juristics from '@/assets/juristics'
+// import { importPersons, importJuristics } from '@/helpers/importData'
 
 export default {
   data () {
     return {}
   },
-  beforeCreate () {
-    Organization.create({ data: {
-      id: 1,
-      name: 'Generation Alive e.V.',
-      address: {
-        street: 'Eisenbahnstraße',
-        houseNr: '23',
-        zip: '51645',
-        city: 'Gummersbach'
-      },
-      purpose: [
-        { desc: 'Förderung der Religion im In- und Ausland' },
-        { desc: 'Förderung der Volks- und Berufsbildung einschließlich Studentenhilfe' }
-      ],
-      taxName: 'Gummersbach',
-      taxNr: '212/5825/2063',
-      taxDate: '26.10.2016',
-      taxPeriod: '2015'
-    } })
-    GeneralSettings.create({ data: {
-      period: '01.2018 - 12.2018'
-    } })
-    Donator.insert({ data: {
-      id: '1qwqwe3',
-      name: 'Max Mustermann',
-      address: {
-        street: 'Musterstr.',
-        houseNr: '24',
-        zip: '12345',
-        city: 'Musterstadt'
-      },
-      donations: [
-        {
-          date: '24.12.2018',
-          isMemberschipFee: true,
-          isWaiverOfRefund: false,
-          sum: 120
-        },
-        {
-          date: '24.12.2018',
-          isMemberschipFee: false,
-          isWaiverOfRefund: false,
-          sum: 20
-        }
-      ]
-    } })
-    importPersons(persons)
-    importJuristics(juristics)
+  async beforeCreate () {
+    if (!Organization.all().length) {
+      Organization.create({ data: {
+        id: 1,
+        address: {},
+        purpose: []
+      } })
+    }
+
+    if (!GeneralSettings.all().length) {
+      GeneralSettings.new()
+    }
+
+    // importPersons(persons)
+    // importJuristics(juristics)
   }
 }
 </script>

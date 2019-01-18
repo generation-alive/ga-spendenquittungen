@@ -74,6 +74,7 @@ import Address from '@/store/models/Address'
 import Donation from '@/store/models/Donation'
 import _ from 'lodash'
 import moment from 'moment'
+import uniqueId from '@/helpers/uniqueId'
 
 export default {
   name: 'DonatorsEdit',
@@ -201,7 +202,7 @@ export default {
         }
       })
       if (!this.id) {
-        donator.id = _.last(Donator.all()).id + 1
+        donator.id = uniqueId()
       }
       Donator.insert({
         data: donator

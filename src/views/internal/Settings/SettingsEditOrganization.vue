@@ -96,17 +96,17 @@ export default {
       if (!val) {
         return
       }
-      let emptyIndex
+      let emptyId
       for (let purpose of val) {
         if (purpose.desc === '') {
-          emptyIndex = purpose.id
+          emptyId = purpose.id
           break
         }
       }
-      let hasEmptyIndex = !!emptyIndex
-      let isNotLastIndex = emptyIndex !== _.last(val).id
-      if (hasEmptyIndex && isNotLastIndex) {
-        Purpose.delete(emptyIndex)
+      let hasEmptyIndex = !!emptyId
+      let isLastIndex = emptyId === (_.last(val) && _.last(val).id)
+      if (hasEmptyIndex && !isLastIndex) {
+        Purpose.delete(emptyId)
       }
     }
   },
