@@ -73,6 +73,7 @@ import Donator from '@/store/models/Donator'
 import Address from '@/store/models/Address'
 import Donation from '@/store/models/Donation'
 import _ from 'lodash'
+import moment from 'moment'
 
 export default {
   name: 'DonatorsEdit',
@@ -84,6 +85,23 @@ export default {
   computed: {
     verb () {
       return this.id ? 'bearbeiten' : 'erstellen'
+    },
+    isAllDonationsValid () {
+      var self = this
+      let foundIndex = _.findIndex(this.donator.donations, ({ date, sum }) => {
+        return !self.isValidSum(sum) || !self.isValidDate(date)
+      })
+      let allValid = (
+        foundIndex === this.donator.donations.length - 1 ||
+        foundIndex === -1
+      )
+      return allValid
+    },
+    isAllDonationsDateValid () {
+      var self = this
+      var donations = this.donator.donations
+      donations = _.slice(donations, 0, donations.length - 1)
+      return !_.some(donations, (donation) => !self.isValidDonationDate(donation))
     }
   },
   props: {
@@ -94,6 +112,7 @@ export default {
   },
   methods: {
     donationsWatcher (newDonations) {
+      var self = this
       // auto add empty donation as last
       var isLastFieldWithData = this.isDonationWithContent(_.last(newDonations))
       if (isLastFieldWithData) {
@@ -110,6 +129,23 @@ export default {
           this.donator.donations = _.clone(this.donator.donations)
         }
       }
+
+      // if all data is valid, sort donations by date
+      if (this.isAllDonationsDateValid) {
+        let validDonations = _.filter(this.donator.donations, this.isValidDonationDate)
+        let invalidDonations = _.filter(this.donator.donations, (donation) => !self.isValidDonationDate(donation))
+        let sortedDonations = [
+          ..._.sortBy(validDonations, [this.unixTimeOfDonation]),
+          ...invalidDonations
+        ]
+        // only change donations, if we really resorted them
+        if (!_.isEqual(sortedDonations, this.donator.donations)) {
+          this.donator.donations = sortedDonations
+        }
+      }
+    },
+    unixTimeOfDonation (donation) {
+      return moment(donation.date, 'DD.MM.YYYY')
     },
     isDonationWithContent (donation) {
       return donation && (donation.date || donation.sum)
@@ -135,16 +171,12 @@ export default {
     isValidSum (sum) {
       return !!(sum && /^\d*(,\d\d?)?$/.test(sum))
     },
+    isValidDonationDate (donation) {
+      return this.isValidDate(donation.date)
+    },
     async onSave () {
       // check, if all data is valid
-      var self = this
-      let foundIndex = _.findIndex(this.donator.donations, ({ date, sum }) => {
-        return !self.isValidSum(sum) || !self.isValidDate(date)
-      })
-      let allValid = (
-        foundIndex === this.donator.donations.length - 1 ||
-        foundIndex === -1
-      )
+      let allValid = this.isAllDonationsValid
 
       // if not, show a snackbar and return
       if (!allValid) {
