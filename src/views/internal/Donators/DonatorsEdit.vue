@@ -145,7 +145,7 @@ export default {
       }
     },
     unixTimeOfDonation (donation) {
-      return moment(donation.date, 'DD.MM.YYYY')
+      return moment(donation.date, 'DD.MM.YYYY').unix()
     },
     isDonationWithContent (donation) {
       return donation && (donation.date || donation.sum)
@@ -166,7 +166,10 @@ export default {
       }
     },
     isValidDate (date) {
-      return /^[0-3]?\d\.[0-1]?\d\.\d{4}$/.test(date)
+      return (
+        /^[0-3]?\d\.[0-1]?\d\.\d{4}$/.test(date) &&
+        moment(date, 'DD.MM.YYYY').isValid()
+      )
     },
     isValidSum (sum) {
       return !!(sum && /^\d*(,\d\d?)?$/.test(sum))
@@ -196,7 +199,6 @@ export default {
           isWaiverOfRefund: donation.isWaiverOfRefund,
           sum: _.toNumber(_.replace(donation.sum, ',', '.'))
         }
-        // return { ...donation, , id }
       })
       if (!this.id) {
         donator.id = _.last(Donator.all()).id + 1
