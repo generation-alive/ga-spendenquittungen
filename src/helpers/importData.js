@@ -13,7 +13,7 @@ const splitStreet = (street) => {
   }
 }
 
-export default (persons) => {
+export const importPersons = (persons) => {
   let processedData = _.map(persons, (person) => {
     if (person.address) {
       let { street, houseNr } = splitStreet(person.address.street)
@@ -27,6 +27,26 @@ export default (persons) => {
     return {
       id: person._id,
       name: `${person.first_name} ${person.last_name}`,
+      address
+    }
+  })
+  Donator.insert({ data: processedData })
+}
+
+export const importJuristics = (juristics) => {
+  let processedData = _.map(juristics, (juristic) => {
+    if (juristic.address) {
+      let { street, houseNr } = splitStreet(juristic.address.street)
+      var address = {
+        street,
+        houseNr,
+        zip: juristic.address.zip,
+        city: juristic.address.city
+      }
+    }
+    return {
+      id: juristic._id,
+      name: juristic.name,
       address
     }
   })

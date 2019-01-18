@@ -1,0 +1,257 @@
+[{
+  "address": {
+    "country": "DE",
+    "street": "Fasanenweg 31",
+    "zip": "51647 ",
+    "city": "Gummersbach"
+  },
+  "_id": "5c199aa9a1fe4b704f1a287a",
+  "name": "CVJM Bernberg e.V.",
+  "updatedAt": "2018-12-19T01:12:19.292Z",
+  "createdAt": "2018-12-19T01:11:05.736Z",
+  "__v": 0,
+  "type": "organisation"
+}, {
+  "address": {
+    "country": null,
+    "street": "Michaelsbergstraße 28",
+    "zip": "52066",
+    "city": "Aachen"
+  },
+  "contact": {
+    "phone": "0241 9970005",
+    "email": "kontakt@gemeinde-aachen.de"
+  },
+  "_id": "5c199b4aa1fe4b704f1a287b",
+  "name": "Christliche Gemeinde am Michaelsberg",
+  "type": "church",
+  "updatedAt": "2018-12-19T09:26:31.495Z",
+  "createdAt": "2018-12-19T01:13:46.374Z",
+  "__v": 0,
+  "dsgvo_policy": "5c068bd8af9e0b3f69ec5efe"
+}, {
+  "address": {
+    "country": "DE",
+    "street": "Bahnhofstr. 28",
+    "zip": "51702",
+    "city": "Bergneustadt"
+  },
+  "_id": "5c199b88a1fe4b704f1a287c",
+  "name": "EFG Wiedenest",
+  "type": "church",
+  "updatedAt": "2018-12-19T01:14:48.050Z",
+  "createdAt": "2018-12-19T01:14:48.050Z",
+  "__v": 0
+}, {
+  "address": {
+    "country": "DE",
+    "street": "Rösrather Straße 176",
+    "zip": "51107",
+    "city": "Köln"
+  },
+  "_id": "5c199c2397af3970629a4802",
+  "name": "Evangelische Freikirche Köln in Frechen",
+  "type": "church",
+  "updatedAt": "2018-12-19T01:17:23.670Z",
+  "createdAt": "2018-12-19T01:17:23.670Z",
+  "__v": 0
+}, {
+  "address": {
+    "country": "DE",
+    "street": "Sessmarstraße 45",
+    "zip": "51643",
+    "city": "Gummersbach"
+  },
+  "contact": {
+    "website": "www.feggm.de"
+  },
+  "_id": "5c199db097af3970629a4803",
+  "name": "FeG Gummersbach",
+  "type": "church",
+  "person": "5bf022ff6fa68a4e2c94c868",
+  "updatedAt": "2018-12-19T01:24:00.653Z",
+  "createdAt": "2018-12-19T01:24:00.653Z",
+  "__v": 0
+}, {
+  "address": {
+    "country": "DE",
+    "street": "Priminiusstr. 38",
+    "zip": "66424",
+    "city": "Homburg-Beeden"
+  },
+  "_id": "5c199df597af3970629a4804",
+  "name": "FeG Homburg",
+  "type": "church",
+  "updatedAt": "2018-12-19T01:25:09.876Z",
+  "createdAt": "2018-12-19T01:25:09.876Z",
+  "__v": 0
+}, {
+  "address": {
+    "country": "DE",
+    "street": "Lindenbergstraße 9-11",
+    "zip": "42499",
+    "city": "Hückeswagen"
+  },
+  "_id": "5c199e4097af3970629a4805",
+  "name": "FeG Hückeswagen",
+  "type": "church",
+  "updatedAt": "2018-12-19T01:26:24.593Z",
+  "createdAt": "2018-12-19T01:26:24.593Z",
+  "__v": 0
+}, {
+  "address": {
+    "country": "DE",
+    "street": "Im Oberhof 1",
+    "zip": "51588",
+    "city": "Nümbrecht-Harscheid"
+  },
+  "_id": "5c199ea997af3970629a4807",
+  "name": "Freie Christliche Gemeinde Ruppichteroth",
+  "type": "church",
+  "updatedAt": "2018-12-19T01:28:09.037Z",
+  "createdAt": "2018-12-19T01:28:09.037Z",
+  "__v": 0
+}, {
+  "address": {
+    "country": "DE",
+    "street": "Rudolf Loh Straße 1",
+    "zip": "35708",
+    "city": "Haiger"
+  },
+  "contact": {
+    "email": "info@friedhelm-loh-group.com",
+    "phone": "+49 2773 924 - 0",
+    "website": "http://www.friedhelm-loh-group.com/"
+  },
+  "_id": "5c199f1097af3970629a4808",
+  "name": "Friedhelm Loh Stiftung & Co. KG",
+  "type": "company",
+  "person": "5bf022ff6fa68a4e2c94c893",
+  "updatedAt": "2018-12-19T01:29:52.158Z",
+  "createdAt": "2018-12-19T01:29:52.158Z",
+  "__v": 0
+}, {
+  "address": {
+    "country": "DE",
+    "street": "Lenaustraße 53",
+    "zip": "68167",
+    "city": "Mannheim"
+  },
+  "_id": "5c199f3e97af3970629a4809",
+  "name": "Iglesia Cristiana Evangélica Mannheim",
+  "type": "church",
+  "updatedAt": "2018-12-19T01:30:38.453Z",
+  "createdAt": "2018-12-19T01:30:38.453Z",
+  "__v": 0
+}, {
+  "address": {
+    "country": "DE",
+    "street": "Hahnenstraße 10",
+    "zip": "51545",
+    "city": "Waldbröl"
+  },
+  "_id": "5c199f6e97af3970629a480a",
+  "name": "Kirche für dich e.V. (Mosaik Waldbröl)",
+  "type": "church",
+  "person": "5bf022ff6fa68a4e2c94c8b2",
+  "updatedAt": "2018-12-19T01:31:26.453Z",
+  "createdAt": "2018-12-19T01:31:26.453Z",
+  "__v": 0
+}, {
+  "address": {
+    "country": "DE",
+    "street": "Nederlandstraße 1a",
+    "zip": "32825",
+    "city": "Blomberg"
+  },
+  "contact": {
+    "website": "www.kuechen-wittmann.de"
+  },
+  "_id": "5c199fab97af3970629a480b",
+  "name": "Küchen Wittmann GmbH",
+  "type": "company",
+  "person": "5bf022ff6fa68a4e2c94c8d2",
+  "updatedAt": "2018-12-19T01:32:27.701Z",
+  "createdAt": "2018-12-19T01:32:27.701Z",
+  "__v": 0
+}, {
+  "address": {
+    "country": "DE",
+    "street": "Wülfringhausener Str. 1-5",
+    "zip": "51674",
+    "city": "Wiehl"
+  },
+  "contact": {
+    "phone": "02262 93308"
+  },
+  "_id": "5c19a02797af3970629a480c",
+  "name": "Löwen Apotheke",
+  "type": "company",
+  "person": "5bf022ff6fa68a4e2c94c88d",
+  "dsgvo_policy": null,
+  "updatedAt": "2018-12-19T01:34:31.656Z",
+  "createdAt": "2018-12-19T01:34:31.656Z",
+  "__v": 0
+}, {
+  "address": {
+    "country": "DE",
+    "street": "Wiehler Str. 4",
+    "zip": "51588",
+    "city": "Nümbrecht"
+  },
+  "contact": {
+    "phone": "02293 80306"
+  },
+  "_id": "5c19a06497af3970629a480d",
+  "name": "Mennoniten Brüdergemeinde Nümbrecht e.V.",
+  "type": "church",
+  "person": "5bf022ff6fa68a4e2c94c87c",
+  "updatedAt": "2018-12-19T01:48:38.972Z",
+  "createdAt": "2018-12-19T01:35:32.860Z",
+  "__v": 0,
+  "dsgvo_policy": "5c0c8030b928487e0b9711ee"
+}, {
+  "address": {
+    "country": "Germany",
+    "street": "Am Kronberger Hof 4",
+    "zip": "55116",
+    "city": "Mainz"
+  },
+  "_id": "5c19a09597af3970629a480e",
+  "name": "Mainzer Stadtmission",
+  "type": "organisation",
+  "updatedAt": "2018-12-20T09:38:09.070Z",
+  "createdAt": "2018-12-19T01:36:21.014Z",
+  "__v": 0
+}, {
+  "address": {
+    "country": "DE",
+    "street": "Neuendorf Brenderweg 125",
+    "zip": "56070",
+    "city": "Koblenz"
+  },
+  "_id": "5c199e7b97af3970629a4806",
+  "name": "FeG Koblenz",
+  "type": "church",
+  "updatedAt": "2018-12-19T01:46:51.894Z",
+  "createdAt": "2018-12-19T01:27:23.386Z",
+  "__v": 0,
+  "person": "5bf022ff6fa68a4e2c94c8a1"
+}, {
+  "address": {
+    "country": null,
+    "street": "Sonnenberg 1",
+    "zip": "9428",
+    "city": "Walzenhausen"
+  },
+  "contact": {
+    "email": "movida.ch@movida-net.com"
+  },
+  "_id": "5c19a0f997af3970629a480f",
+  "name": "Movida Schweiz",
+  "type": "organisation",
+  "updatedAt": "2018-12-23T00:07:54.909Z",
+  "createdAt": "2018-12-19T01:38:01.427Z",
+  "__v": 0,
+  "dsgvo_policy": "5c068cd9af9e0b3f69ec5eff"
+}]

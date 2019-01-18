@@ -9,7 +9,8 @@ import Organization from '@/store/models/Organization'
 import GeneralSettings from '@/store/models/GeneralSettings'
 import Donator from '@/store/models/Donator'
 import persons from '@/assets/persons'
-import importPersons from '@/helpers/importPersons'
+import juristics from '@/assets/juristics'
+import { importPersons, importJuristics } from '@/helpers/importData'
 
 export default {
   data () {
@@ -62,6 +63,7 @@ export default {
       ]
     } })
     importPersons(persons)
+    importJuristics(juristics)
   }
 }
 </script>
