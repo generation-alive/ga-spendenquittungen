@@ -36,7 +36,7 @@ export default {
       period: '01.2018 - 12.2018'
     } })
     Donator.insert({ data: {
-      id: 1,
+      id: '1qwqwe3',
       name: 'Max Mustermann',
       address: {
         street: 'Musterstr.',
