@@ -19,12 +19,14 @@
         :infos="generalInfos"
         :routeOnEdit="{name: 'settingsGeneral'}"
       />
+      <import-card class="import-card"/>
     </mdc-layout-cell>
   </mdc-layout-grid>
 </template>
 
 <script>
 import SettingsOverviewCard from './SettingsOverviewCard'
+import ImportCard from './ImportCard'
 import Organization from '@/store/models/Organization'
 import GeneralSettings from '@/store/models/GeneralSettings'
 
@@ -60,11 +62,13 @@ export default {
     }
   },
   components: {
-    SettingsOverviewCard
+    SettingsOverviewCard,
+    ImportCard
   }
 }
 </script>
 
 <style lang="sass" scoped>
-
+  .import-card
+    margin-top: 1rem
 </style>
