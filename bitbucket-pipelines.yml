@@ -16,7 +16,7 @@ pipelines:
           name: Publish
           deployment: test
           script:
-            - ssh-keyscan -H 213.136.78.46 >> ~/.ssh/known_hosts
+            - ssh-keyscan -p 48008 -H 213.136.78.46 >> ~/.ssh/known_hosts
             - task: atlassian/scp-deploy:0.1.0
               environment:
                 USER: "kaisky89"
