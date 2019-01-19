@@ -21,12 +21,13 @@
 
 <script>
 import Donator from '@/store/models/Donator'
+import _ from 'lodash'
 
 export default {
   name: 'DonatorsOverview',
   computed: {
     donators () {
-      return Donator.query().with('donations').all()
+      return _.sortBy(Donator.query().with('donations').all(), ['name'])
     }
   }
 }
