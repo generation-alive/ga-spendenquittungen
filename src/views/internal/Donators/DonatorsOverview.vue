@@ -4,8 +4,10 @@
       <mdc-display>Spender</mdc-display>
     </mdc-layout-cell>
     <mdc-layout-cell desktop=6 tablet=6 phone=12 >
+      <mdc-textfield v-model="search" label="Spender suchen" outline
+        trailing-icon="search" class="search"/>
       <mdc-list two-line >
-        <mdc-list-item v-for="donator in donators" :key="donator.id">
+        <mdc-list-item v-for="donator in filteredDonators" :key="donator.id">
           <mdc-icon slot="start-detail" icon="account_circle" />
           <span>{{donator.name}}</span>
           <span slot="secondary">Summe: {{donator.totalSum | currency}}</span>
@@ -25,9 +27,23 @@ import _ from 'lodash'
 
 export default {
   name: 'DonatorsOverview',
+  data () {
+    return {
+      search: ''
+    }
+  },
   computed: {
     donators () {
       return _.sortBy(Donator.query().with('donations').all(), ['name'])
+    },
+    filteredDonators () {
+      if (this.search) {
+        var self = this
+        return _.filter(this.donators, (donator) =>
+          _.includes(_.toUpper(donator.name), _.toUpper(self.search))
+        )
+      }
+      return this.donators
     }
   }
 }
@@ -41,5 +57,6 @@ export default {
     @media(min-width: 1024px)
       bottom: 1.5rem
       right: 1.5rem
-
+  .search
+    width: 100%
 </style>
