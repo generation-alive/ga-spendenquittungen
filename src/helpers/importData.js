@@ -30,5 +30,5 @@ export const importDonators = (persons) => {
       address
     }
   })
-  Donator.insert({ data: processedData })
+  Donator.insertOrUpdate({ data: processedData })
 }
