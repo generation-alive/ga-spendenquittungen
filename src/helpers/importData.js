@@ -26,7 +26,7 @@ export const importDonators = (persons) => {
     }
     return {
       id: person._id,
-      name: person.name || `${person.first_name} ${person.last_name}`,
+      name: person.name || _.trim(_.join([person.first_name, person.last_name], ' ')),
       address
     }
   })
