@@ -17,8 +17,8 @@ pipelines:
           deployment: test
           script:
             - ssh-keyscan -p 48008 -H 213.136.78.46 >> ~/.ssh/known_hosts
-            - task: atlassian/scp-deploy:0.1.0
-              environment:
+            - pipe: atlassian/scp-deploy:0.3.0
+              variables:
                 USER: "kaisky89"
                 SERVER: "213.136.78.46"
                 REMOTE_PATH: "public_html/ga-spendenquittungen"
