@@ -82,7 +82,7 @@ export default {
       'taxNr',
       'taxDate',
       'taxPeriod'
-    ], { withModels: ['address'] })
+    ], { withModels: ['address'], method: 'insertOrUpdate' })
   },
   methods: {
     addEmptyPurposeAsLast (val) {

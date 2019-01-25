@@ -17,3 +17,5 @@ export default class Address extends Model {
     }
   }
 }
+
+window.Address = Address
