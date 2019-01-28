@@ -4,8 +4,13 @@
       <mdc-display>Spender</mdc-display>
     </mdc-layout-cell>
     <mdc-layout-cell desktop=6 tablet=6 phone=12 >
-      <mdc-textfield v-model="search" label="Spender suchen" outline
-        trailing-icon="search" class="search"/>
+      <div class="tools">
+        <mdc-textfield v-model="search" label="Spender suchen" outline
+          trailing-icon="search" class="search"/>
+        <mdc-icon-toggle v-model="donatorsWithSum"
+          toggle-on="attach_money"
+          toggle-off="money_off"/>
+      </div>
       <mdc-list two-line >
         <mdc-list-item v-for="donator in filteredDonators" :key="donator.id">
           <mdc-icon slot="start-detail" icon="account_circle" />
@@ -29,14 +34,15 @@ export default {
   name: 'DonatorsOverview',
   data () {
     return {
-      search: ''
+      search: '',
+      donatorsWithSum: false
     }
   },
   computed: {
     donators () {
       return _.sortBy(Donator.query().with('donations').all(), ['name'])
     },
-    filteredDonators () {
+    searchedDonators () {
       if (this.search) {
         var self = this
         return _.filter(this.donators, (donator) =>
@@ -44,6 +50,15 @@ export default {
         )
       }
       return this.donators
+    },
+    filteredDonators () {
+      if (this.donatorsWithSum) {
+        return _.filter(this.searchedDonators, (donator) =>
+          !!donator.totalSum
+        )
+      } else {
+        return this.searchedDonators
+      }
     }
   }
 }
@@ -57,6 +72,11 @@ export default {
     @media(min-width: 1024px)
       bottom: 1.5rem
       right: 1.5rem
+  .tools
+    display: flex
+    align-items: center
+    padding-right: 1rem
   .search
     width: 100%
+    padding-right: 1rem
 </style>
