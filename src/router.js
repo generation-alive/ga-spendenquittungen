@@ -6,6 +6,7 @@ import SettingsEditGeneral from '@/views/internal/Settings/SettingsEditGeneral'
 import SettingsEditOrganization from '@/views/internal/Settings/SettingsEditOrganization'
 import DonatorsOverview from '@/views/internal/Donators/DonatorsOverview'
 import DonatorsEdit from '@/views/internal/Donators/DonatorsEdit'
+import DonatorsPrint from '@/views/print/DonatorsPrint'
 
 Vue.use(Router)
 
@@ -58,6 +59,12 @@ export default new Router({
           component: DonatorsEdit
         }
       ]
+    },
+    {
+      path: '/donators/:id/print',
+      name: 'donatorsPrint',
+      component: DonatorsPrint,
+      props: true
     }
   ]
 })
