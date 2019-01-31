@@ -6,14 +6,18 @@
         <img :src="gaLogo" alt="" class="logo">
         <div class="header-window">
           <div class="from">
-            <span class="from__name">Generation Alive e.V.</span> |
-            <span class="from__street">Im Eulenspiegel 22a</span> |
-            <span class="from__city">79591 Eimeldingen</span>
+            <span class="from__name">{{name}}</span> |
+            <span class="from__street">{{street}} {{houseNr}}</span> |
+            <span class="from__city">{{zip}} {{city}}</span>
           </div>
           <div class="to">
-            <div class="to__line">Kai Mario Wittmann</div>
-            <div class="to__line">Weiherplatz 24</div>
-            <div class="to__line">51674 Wiehl</div>
+            <div class="to__line">{{donator.name}}</div>
+            <div v-if="donator.address" class="to__line">
+              {{donator.address.street}} {{donator.address.houseNr}}
+            </div>
+            <div v-if="donator.address" class="to__line">
+              {{donator.address.zip}} {{donator.address.city}}
+            </div>
           </div>
         </div>
       </div>
@@ -32,12 +36,14 @@
       <div class="donator-details">
         <div class="donator-detail donator-detail--large">
           <div class="donator-detail__label">Name und Wohnort des Zuwendenden:</div>
-          <div class="donator-detail__data">Kai Mario Wittmann</div>
+          <div class="donator-detail__data">
+            {{donator.name}}, {{donator.address && donator.address.city}}
+          </div>
         </div>
         <div class="donator-details__line">
           <div class="donator-detail donator-detail">
             <div class="donator-detail__label">Gesamtbetrag der Zuwendung -in Ziffern-</div>
-            <div class="donator-detail__data">€ - {{sum | currency('')}} -</div>
+            <div class="donator-detail__data">€ - {{donator.totalSum | currency('')}} -</div>
           </div>
           <div class="donator-detail donator-detail--centered">
             <div class="donator-detail__label">-in Buchstaben-</div>
@@ -46,7 +52,7 @@
         </div>
         <div class="donator-detail">
           <div class="donator-detail__label">Zeitraum der Sammelbestätigung</div>
-          <div class="donator-detail__data">siehe Anlage</div>
+          <div class="donator-detail__data">{{period}}</div>
         </div>
       </div>
 
@@ -77,7 +83,7 @@
           {{city}}, {{date}}
         </p>
         <p class="signature">
-          - Kassenführer -
+          - KassenführerIn -
         </p>
         <div class="annotation">
           <p class="annotation__p">
@@ -106,6 +112,11 @@
 import gaLogo from '@/assets/ga-logo.svg'
 import { de as inWordsDe } from 'in-words'
 import _ from 'lodash'
+import moment from 'moment'
+import { mapModelProps } from '@/store/helpers/mapModel'
+import Organization from '@/store/models/Organization'
+import GeneralSettings from '@/store/models/GeneralSettings'
+import Donator from '@/store/models/Donator'
 
 export default {
   name: 'DonatorsPrint',
@@ -118,8 +129,26 @@ export default {
     id: String
   },
   computed: {
+    ...mapModelProps(Organization, 1, [
+      'name',
+      'address.street',
+      'address.houseNr',
+      'address.zip',
+      'address.city',
+      'purpose',
+      'taxName',
+      'taxNr',
+      'taxDate',
+      'taxPeriod'
+    ], { withModels: ['address', 'purpose'] }),
+    ...mapModelProps(GeneralSettings, 1, [
+      'period'
+    ]),
+    donator () {
+      return Donator.query().with('address').with('donations').find(this.id)
+    },
     inWords () {
-      let sum = _.round(this.sum, 2)
+      let sum = _.round(this.donator.totalSum, 2)
       let preCommaNumber = _.floor(sum)
       let postCommaNumber = _.round((_.floor(sum, 2) - preCommaNumber) * 100)
       let comma1Number = _.round(_.floor(postCommaNumber, -1) / 10)
@@ -130,7 +159,24 @@ export default {
       return `${preComma} Komma ${comma1} ${comma2}`
     },
     purposesAsText () {
-      return 'bla, bla und bla'
+      let purposes = _.filter(this.purpose, (purpose) => purpose.desc)
+      if (!purposes.length) {
+        return 'NOCH KEINE VEREINSZWECKE DEFINIERT'
+      }
+      return _.reduce(
+        purposes,
+        (result, value, index, collection) => {
+          if (!result) {
+            return value.desc
+          }
+          let isNotLast = index < collection.length - 1
+          return _.join([result, value.desc], isNotLast ? ', ' : ' und ')
+        },
+        ''
+      )
+    },
+    date () {
+      return moment().format('dddd, Do MMMM YYYY')
     }
   },
   created () {

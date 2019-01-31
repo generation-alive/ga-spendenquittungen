@@ -4,6 +4,10 @@ import router from './router'
 import store from './store'
 import VueMDCAdapter from 'vue-mdc-adapter'
 import VueCurrencyFilter from 'vue-currency-filter'
+import moment from 'moment'
+import de from 'moment/locale/de'
+
+moment.locale('de', de)
 
 Vue.use(VueMDCAdapter)
 
