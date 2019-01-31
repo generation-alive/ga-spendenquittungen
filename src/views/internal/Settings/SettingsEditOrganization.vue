@@ -115,6 +115,9 @@ export default {
       handler (val, oldVal) {
         this.addEmptyPurposeAsLast(val)
         this.removeEmptyPurposeNotLast(val)
+        if (!_.isEqual(val, oldVal)) {
+          this.purpose = [...this.purpose]
+        }
       },
       deep: true,
       immediate: true
