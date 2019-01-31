@@ -60,4 +60,13 @@ export default {
     min-height: 100%;
     margin: 0;
   }
+
+  @media print {
+    body {
+      width: 21cm;
+      height: 29.7cm;
+      margin: 0mm 0mm 0mm 0mm;
+      /* change the margins as you want them to be. */
+    }
+  }
 </style>
