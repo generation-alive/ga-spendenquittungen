@@ -91,6 +91,46 @@
 
       <print-footer />
     </div>
+
+    <div class="page">
+      <print-logo />
+      <div class="title-attachment">Anlage zur Sammelbestätigung vom {{date}}</div>
+      <p v-if="donator">{{donator.name}}<span v-if="donator.address">,
+        {{donator.address.street}} {{donator.address.houseNr}} in
+        {{donator.address.zip}} {{donator.address.city}}
+      </span></p>
+
+      <table class="donation-table">
+        <thead>
+          <tr>
+            <th class="cell--date">Datum</th>
+            <th class="cell--type">Art der Zuwendung</th>
+            <th class="cell--waive">Verzicht auf die Erstattung von Aufwendungen (ja/nein)</th>
+            <th class="cell--sum">Betrag</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="donation in donator.donations" :key="donation.id">
+            <td class="cell--date">{{donation.date}}</td>
+            <td class="cell--type">{{donation.isMemberschipFee ? 'Mitgliedsbeitrag' : 'Geldzuwendung'}}</td>
+            <td class="cell--waive">{{donation.isWaiverOfRefund ? 'Ja' : 'Nein'}}</td>
+            <td class="cell--sum">{{donation.sum | currency}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="total-sum">
+        <div class="total-sum__left">Gesamtsumme:</div>
+        <div class="total-sum__right">
+          {{donator.totalSum | currency}}
+        </div>
+      </div>
+
+      <print-annotation />
+
+      <print-footer />
+
+    </div>
   </div>
 </template>
 <script>
@@ -276,5 +316,39 @@ export default {
   font-size: 9pt
   margin-top: 1cm
   margin-bottom: 5mm
+
+.title-attachment
+  font-size: 15pt
+  line-height: 110%
+  font-weight: 700
+  margin-top: 5cm
+  margin-bottom: 1mm
+
+.total-sum
+  margin-top: 1cm
+  display: flex
+  justify-content: space-between
+  font-weight: 700
+
+.donation-table
+  width: 100%
+  border-collapse: collapse
+  border-spacing: 0
+  padding: 0
+  thead, tr, th, tbody, td
+    padding: .5mm 0
+
+.cell
+  &--date
+    width: 3.4cm
+    text-align: left
+  &--type
+    width: 5cm
+    text-align: center
+  &--waive
+    width: 5.5cm
+    text-align: center
+  &--sum
+    text-align: right
 
 </style>

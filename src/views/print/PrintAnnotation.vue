@@ -28,7 +28,12 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+@import ./printVars
+
 .annotation
+  position: absolute
+  width: $width
+  bottom: 1.9cm
   font-size: 7pt
   line-height: 120%
   &__p
