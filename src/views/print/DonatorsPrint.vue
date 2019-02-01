@@ -62,7 +62,7 @@
 
       <div class="text">
         <p>
-          Wir sind wegen {{purposesAsText}} nach dem Freistellungsbescheid des
+          Wir sind wegen {{purposesAsText('wegen')}} nach dem Freistellungsbescheid des
           <strong>Finanzamtes {{taxName}}, St.Nr. {{taxNr}}, vom {{taxDate}} für
           den letzten Veranlagungszeitraum {{taxPeriod}}</strong>, nach § 5 Abs.
           1 Nr. 9 des Körperschaftsteuergesetzes von der Körperschaftsteuer und
@@ -70,7 +70,7 @@
           befreit.
         </p>
         <p>
-          Es wird bestätigt, dass die Zuwendung nur zur {{purposesAsText}}
+          Es wird bestätigt, dass die Zuwendung nur zur {{purposesAsText('zur')}}
           verwendet wird.
         </p>
         <p>
@@ -197,7 +197,20 @@ export default {
       let comma2 = inWordsDe(_.floor(comma2Number))
       return `${preComma} Komma ${comma1} ${comma2}`
     },
-    purposesAsText () {
+    date () {
+      return moment().format('dddd, Do MMMM YYYY')
+    },
+    titleString () {
+      return this.donator.name
+    }
+  },
+  methods: {
+    purposesAsText (startWord) {
+      startWord = startWord || ''
+      var separators = {
+        notLast: ', ' + startWord + ' ',
+        last: ' und ' + startWord + ' '
+      }
       let purposes = _.filter(this.purpose, (purpose) => purpose.desc)
       if (!purposes.length) {
         return 'NOCH KEINE VEREINSZWECKE DEFINIERT'
@@ -209,16 +222,13 @@ export default {
             return value.desc
           }
           let isNotLast = index < collection.length - 1
-          return _.join([result, value.desc], isNotLast ? ', ' : ' und ')
+          return _.join(
+            [result, value.desc],
+            isNotLast ? separators.notLast : separators.last
+          )
         },
         ''
       )
-    },
-    date () {
-      return moment().format('dddd, Do MMMM YYYY')
-    },
-    titleString () {
-      return this.donator.name
     }
   },
   components: {
