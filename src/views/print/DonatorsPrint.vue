@@ -3,7 +3,7 @@
     <div class="page">
 
       <div class="header">
-        <img :src="gaLogo" alt="" class="logo">
+        <print-logo />
         <div class="header-window">
           <div class="from">
             <span class="from__name">{{name}}</span> |
@@ -85,26 +85,11 @@
         <p class="signature">
           - KassenführerIn -
         </p>
-        <div class="annotation">
-          <p class="annotation__p">
-            <span class="annotation__title">Hinweis:</span><br>
-            Wer vorsätzlich oder grob fahrlässig eine unrichtige
-            Zuwendungsbestätigung erstellt oder veranlasst, dass Zuwendungen
-            nicht zu den in der Zuwendungsbestätigung ausgegebenen
-            steuerbegünstigten Zwecken verwendet werden, haftet für die
-            entgangene Steuer (§ 10b Abs. 4 EStG, § 9 Abs. 3 KStG, § 9 Nr. 5
-            GewStG).
-          </p>
-          <p class="annotation__p">
-            Diese Bestätigung wird nicht als Nachweis für die steuerliche
-            Berücksichtigung der Zuwendung anerkannst, wenn das Datum des
-            Freistellungsbescheides länger als 5 Jahre bzw. das Datum der
-            Feststellung der Einhaltung der satzungsmäßigen Voraussetzungen nach
-            § 60a Abs. 1 AO länger als 3 Jahre seit Ausstellung des Bescheides
-            zurückliegt (§ 63 Abs. 5 AO).
-          </p>
-        </div>
       </div>
+
+      <print-annotation />
+
+      <print-footer />
     </div>
   </div>
 </template>
@@ -117,12 +102,15 @@ import { mapModelProps } from '@/store/helpers/mapModel'
 import Organization from '@/store/models/Organization'
 import GeneralSettings from '@/store/models/GeneralSettings'
 import Donator from '@/store/models/Donator'
+import PrintFooter from '@/views/print/PrintFooter'
+import PrintAnnotation from '@/views/print/PrintAnnotation'
+import PrintLogo from '@/views/print/PrintLogo'
 
 export default {
   name: 'DonatorsPrint',
+  title: (context) => context.titleString,
   data () {
     return {
-      sum: 1324.59
     }
   },
   props: {
@@ -177,7 +165,15 @@ export default {
     },
     date () {
       return moment().format('dddd, Do MMMM YYYY')
+    },
+    titleString () {
+      return this.donator.name
     }
+  },
+  components: {
+    PrintFooter,
+    PrintAnnotation,
+    PrintLogo
   },
   created () {
     this.gaLogo = gaLogo
@@ -185,14 +181,7 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-$a4width: 21cm
-$a4height: 29.7cm
-$pLeft: 2.4cm
-$pRight: 1.2cm
-$pTop: 1.5cm
-$pBottom: 1cm
-$width: $a4width - $pRight - $pLeft
-$height: $a4height - $pTop - $pBottom
+@import ./printVars
 
 .donators-print
   background: rgb(204, 204, 204)
@@ -242,7 +231,7 @@ $height: $a4height - $pTop - $pBottom
 .intro
   margin-top: 1.5cm
   &__title
-    font-size: 20pt
+    font-size: 18pt
     line-height: 110%
     font-weight: 700
     margin-bottom: 1mm
@@ -287,14 +276,5 @@ $height: $a4height - $pTop - $pBottom
   font-size: 9pt
   margin-top: 1cm
   margin-bottom: 5mm
-
-.annotation
-  font-size: 7pt
-  line-height: 120%
-  &__p
-    margin-bottom: 3mm
-  &__title
-    font-weight: 600
-    text-decoration: underline
 
 </style>
