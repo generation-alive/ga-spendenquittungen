@@ -35,7 +35,7 @@ export default {
 
 .footer
   position: absolute
-  bottom: 3mm
+  bottom: 5.6mm
   &__img
     margin-left: - $pLeft
     width: $a4width

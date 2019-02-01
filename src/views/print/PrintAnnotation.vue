@@ -33,11 +33,12 @@ export default {
 .annotation
   position: absolute
   width: $width
-  bottom: 1.9cm
+  bottom: 2.3cm
   font-size: 7pt
   line-height: 120%
   &__p
-    margin-bottom: 3mm
+    margin: 0
+    margin-bottom: 1mm
   &__title
     font-weight: 600
     text-decoration: underline

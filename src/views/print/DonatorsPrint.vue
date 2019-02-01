@@ -5,18 +5,22 @@
       <div class="header">
         <print-logo />
         <div class="header-window">
-          <div class="from">
-            <span class="from__name">{{name}}</span> |
-            <span class="from__street">{{street}} {{houseNr}}</span> |
-            <span class="from__city">{{zip}} {{city}}</span>
-          </div>
-          <div class="to">
-            <div class="to__line">{{donator.name}}</div>
-            <div v-if="donator.address" class="to__line">
-              {{donator.address.street}} {{donator.address.houseNr}}
+          <div class="header-window__wrapper">
+            <div class="from">
+              <span class="from__name">{{name}}</span><span> | </span>
+              <span class="from__street">{{street}} {{houseNr}}</span><span> | </span>
+              <span class="from__city">{{zip}} {{city}}</span>
             </div>
-            <div v-if="donator.address" class="to__line">
-              {{donator.address.zip}} {{donator.address.city}}
+            <div class="to">
+              <div class="to__wrapper">
+                <div class="to__line">{{donator.name}}</div>
+                <div v-if="donator.address" class="to__line">
+                  {{donator.address.street}} {{donator.address.houseNr}}
+                </div>
+                <div v-if="donator.address" class="to__line">
+                  {{donator.address.zip}} {{donator.address.city}}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -90,6 +94,7 @@
       <print-annotation />
 
       <print-footer />
+      <img v-if="overlayActive" :src="overlay" alt="" class="overlay">
     </div>
 
     <div class="page">
@@ -129,12 +134,13 @@
       <print-annotation />
 
       <print-footer />
-
+      <img v-if="overlayActive" :src="overlay" alt="" class="overlay">
     </div>
   </div>
 </template>
 <script>
 import gaLogo from '@/assets/ga-logo.svg'
+import overlay from '@/assets/DIN_5008_Form_B.svg'
 import { de as inWordsDe } from 'in-words'
 import _ from 'lodash'
 import moment from 'moment'
@@ -151,6 +157,7 @@ export default {
   title: (context) => context.titleString,
   data () {
     return {
+      overlayActive: false
     }
   },
   props: {
@@ -217,6 +224,7 @@ export default {
   },
   created () {
     this.gaLogo = gaLogo
+    this.overlay = overlay
   }
 }
 </script>
@@ -251,6 +259,13 @@ export default {
     box-shadow: 0 0 0.5cm rgba(255, 255, 255, 1)
     margin: 0
 
+.overlay
+  position: absolute
+  top: 0
+  left: 0
+  width: $a4width
+  opacity: 0.5
+
 .logo
   position: absolute
   right: 1.2cm
@@ -258,18 +273,34 @@ export default {
   width: 6.4cm
 
 .header-window
-  margin-top: 3.2cm
+  margin-top: 3cm
+  margin-left: -0.5cm
+  width: 8.5cm
+  height: 4.5cm
+  display: flex
+  justify-content: space-around
+  &__wrapper
+    display: inline-block
 
 .from
   font-size: 8pt
+  height: 17.7mm
+  display: flex
+  align-items: flex-end
+  span
+    padding-bottom: 1mm
   &__name
     font-weight: 600
 
 .to
-  margin-top: 5mm
+  height: 27.3mm
+  display: flex
+  align-items: flex-start
+  &__wrapper
+    padding-top: 1mm
 
 .intro
-  margin-top: 1.5cm
+  margin-top: 8.46mm
   &__title
     font-size: 18pt
     line-height: 110%
@@ -277,7 +308,7 @@ export default {
     margin-bottom: 1mm
 
 .donator-details
-  margin-top: 1cm
+  margin-top: 0.5cm
 
   &__line
     display: flex
@@ -311,11 +342,15 @@ export default {
 
       &__data
 
+.text
+  p
+    margin-block-start: $textMargin
+    margin-block-end: $textMargin
+
 .signature
   font-family: Merriweather
   font-size: 9pt
-  margin-top: 1cm
-  margin-bottom: 5mm
+  padding-top: 1cm
 
 .title-attachment
   font-size: 15pt
