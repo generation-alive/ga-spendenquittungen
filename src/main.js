@@ -6,6 +6,7 @@ import VueMDCAdapter from 'vue-mdc-adapter'
 import VueCurrencyFilter from 'vue-currency-filter'
 import moment from 'moment'
 import de from 'moment/locale/de'
+import VuePageTitle from 'vue-page-title'
 
 moment.locale('de', de)
 
@@ -21,6 +22,10 @@ Vue.use(VueCurrencyFilter, {
 })
 
 Vue.config.productionTip = false
+
+Vue.use(VuePageTitle, {
+  suffix: ' - GA Spendenquittung'
+})
 
 window.Vue = new Vue({
   router,
