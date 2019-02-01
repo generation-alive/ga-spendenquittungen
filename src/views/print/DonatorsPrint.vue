@@ -99,18 +99,22 @@
 
     <div class="page">
       <print-logo />
-      <div class="title-attachment">Anlage zur Sammelbestätigung vom {{date}}</div>
-      <p v-if="donator">{{donator.name}}<span v-if="donator.address">,
-        {{donator.address.street}} {{donator.address.houseNr}} in
-        {{donator.address.zip}} {{donator.address.city}}
-      </span></p>
+      <div class="title-attachment">Anlage zur Sammelbestätigung</div>
+      <p>vom {{date}}
+        <template v-if="donator"> für
+          {{donator.name}}<span v-if="donator.address">,
+            {{donator.address.street}} {{donator.address.houseNr}} in
+            {{donator.address.zip}} {{donator.address.city}}
+          </span>
+        </template>
+      </p>
 
       <table class="donation-table">
         <thead>
           <tr>
             <th class="cell--date">Datum</th>
             <th class="cell--type">Art der Zuwendung</th>
-            <th class="cell--waive">Verzicht auf die Erstattung von Aufwendungen (ja/nein)</th>
+            <th class="cell--waive">Verzicht auf die Erstattung von Aufwendungen</th>
             <th class="cell--sum">Betrag</th>
           </tr>
         </thead>
