@@ -119,7 +119,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="donation in donator.donations" :key="donation.id">
+          <tr v-for="donation in donations" :key="donation.id">
             <td class="cell--date">{{donation.date}}</td>
             <td class="cell--type">{{donation.isMemberschipFee ? 'Mitgliedsbeitrag' : 'Geldzuwendung'}}</td>
             <td class="cell--waive">{{donation.isWaiverOfRefund ? 'Ja' : 'Nein'}}</td>
@@ -185,6 +185,9 @@ export default {
     ]),
     donator () {
       return Donator.query().with('address').with('donations').find(this.id)
+    },
+    donations () {
+      return _.sortBy(this.donator.donations, [(donation) => moment(donation.date, 'DD.MM.YYYY').unix()])
     },
     inWords () {
       let sum = _.round(this.donator.totalSum, 2)
