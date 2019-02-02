@@ -364,7 +364,7 @@ export default {
 .signature
   font-family: Merriweather
   font-size: 9pt
-  padding-top: 1cm
+  padding-top: 4.7mm
 
 .title-attachment
   font-size: 15pt
