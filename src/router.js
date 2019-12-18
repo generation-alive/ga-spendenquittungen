@@ -65,6 +65,10 @@ export default new Router({
       name: 'donatorsPrint',
       component: DonatorsPrint,
       props: true
+    },
+    {
+      path: '*',
+      redirect: { name: 'internal' }
     }
   ]
 })
