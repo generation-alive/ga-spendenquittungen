@@ -16,7 +16,7 @@
     <div class="hello__content">
       <mdc-layout-grid>
         <mdc-layout-cell desktop="6" tablet="4" phone="4">
-          <h3 class="hello__subtitle">Vue MDC Adapter Links</h3>
+          <h3 class="hello__subtitle">Vue MDC Adapter Links 123</h3>
           <ul class="hello__links">
             <li v-for="(link, idx) in vmaLinks" :key="idx">
               <a :href="link.url" target="_blank" rel="noopener">{{ link.title }}</a>
