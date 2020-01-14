@@ -4,9 +4,11 @@
       title="Daten / Importe" >
     </mdc-card-header>
     <mdc-card-text>
-      <div class="desc">Import von .json Dateien aus der GA Datenbank</div>
-      <mdc-button @click="onDonatorsButtonClick" outlined class="button">Spender</mdc-button>
+      <div class="desc">Import von .json oder .csv Dateien</div>
+      <mdc-button @click="$refs.donators.click()" outlined class="button">Spender</mdc-button>
       <input type="file" ref="donators" accept="application/json" v-show="false" @change="onDonatorsUpload"/>
+      <mdc-button @click="$refs.transactions.click()" outlined class="button">Kontoauszüge</mdc-button>
+      <input type="file" ref="transactions" accept=".csv" v-show="false" @change="onTransactionsUpload"/>
     </mdc-card-text>
     <mdc-card-actions v-if="routeOnEdit">
       <mdc-card-action-icons>
@@ -18,8 +20,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
-import { importDonators } from '@/helpers/importData'
+import { importDonators, importTransactions } from '@/helpers/importData'
 
 export default {
   name: 'ImportCard',
@@ -46,27 +47,30 @@ export default {
     }
   },
   computed: {
-    purposesNotEmpty () {
-      return _.filter(this.purposes, p => !!p)
-    }
   },
   methods: {
-    onDonatorsButtonClick () {
-      this.$refs.donators.click()
+    processFileEventWith (event, processor) {
+      var fr = new FileReader()
+      const self = this
+      fr.onload = async (file) => {
+        let result = file.target.result
+        try {
+          await processor(result)
+          self.$refs.snackbar.show({ message: '👌🏻 Daten erfolgreich importiert 👌🏻' })
+        } catch (e) {
+          self.$refs.snackbar.show({ message: '❌ Etwas beim Import ist schiefgelaufen ❌' })
+          console.error(e)
+        }
+      }
+      fr.readAsText(event.target.files[0])
     },
     onDonatorsUpload (e) {
-      var fr = new FileReader()
-      fr.onload = this.onDonatorsRead
-      fr.readAsText(e.target.files[0])
+      this.processFileEventWith(e, (fileContent) => {
+        importDonators(JSON.parse(fileContent))
+      })
     },
-    onDonatorsRead (file) {
-      let result = file.target.result
-      try {
-        importDonators(JSON.parse(result))
-        this.$refs.snackbar.show({ message: '👌🏻 Daten erfolgreich importiert 👌🏻' })
-      } catch (e) {
-        this.$refs.snackbar.show({ message: '❌ Etwas beim Import ist schiefgelaufen ❌' })
-      }
+    onTransactionsUpload (e) {
+      this.processFileEventWith(e, importTransactions)
     }
   }
 }

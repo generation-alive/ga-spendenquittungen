@@ -1,5 +1,10 @@
 import Donator from '@/store/models/Donator'
+import BankAccount from '@/store/models/BankAccount'
 import _ from 'lodash'
+import { promisify } from 'es6-promisify'
+import parseCallback from 'csv-parse'
+
+const parse = promisify(parseCallback)
 
 const splitStreet = (street) => {
   if (!street) {
@@ -31,4 +36,56 @@ export const importDonators = (persons) => {
     }
   })
   Donator.insertOrUpdate({ data: processedData })
+}
+
+export const importTransactions = async (transactions) => {
+  // parse data
+  var parsedData = await parse(transactions, {
+    delimiter: ';',
+    columns: header => _.map(header, (headerEl) => _.includes([
+      'Begünstigter/Absender - Kontonummer',
+      'Begünstigter/Absender - Bankleitzahl',
+      'Begünstigter/Absender - Name',
+      'Betrag',
+      'Verwendungszweckzeile 1',
+      'Verwendungszweckzeile 2',
+      'Buchungstag',
+      'Kategorie'
+    ], headerEl) ? _.camelCase(headerEl) : null)
+  })
+
+  // structure data
+  var structuredData = {}
+  _.each(parsedData, ({
+    begunstigterAbsenderBankleitzahl,
+    begunstigterAbsenderKontonummer,
+    begunstigterAbsenderName,
+    verwendungszweckzeile1,
+    verwendungszweckzeile2,
+    betrag,
+    buchungstag,
+    kategorie
+  }) => {
+    // initialize the data
+    var accountData = structuredData[begunstigterAbsenderKontonummer] || {
+      blz: begunstigterAbsenderBankleitzahl,
+      iban: begunstigterAbsenderKontonummer,
+      name: begunstigterAbsenderName,
+      transactions: []
+    }
+    // add this transaction
+    accountData.transactions.push({
+      amount: _.toNumber(_.replace(betrag, ',', '.')),
+      date: buchungstag,
+      purpose: `${verwendungszweckzeile1}\n${verwendungszweckzeile2}`,
+      category: kategorie
+    })
+
+    // save into structuredData
+    structuredData[begunstigterAbsenderKontonummer] = accountData
+  })
+
+  // save it into the store
+  var bankAccountsArray = _.map(structuredData, el => el)
+  BankAccount.insertOrUpdate({ data: bankAccountsArray })
 }
