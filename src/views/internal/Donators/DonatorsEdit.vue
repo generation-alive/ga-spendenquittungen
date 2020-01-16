@@ -41,6 +41,10 @@
               :src="icons.account"
               :title="newTransactionsLabel(bankAccount) + bankAccount.name"
               :support-text="bankAccount.iban"
+              @click="$router.push({
+                name: 'donatorsTransactions',
+                params: { id, iban: bankAccount.iban },
+              })"
             />
             <mdc-grid-tile
               v-if="id"

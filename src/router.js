@@ -8,6 +8,7 @@ import DonatorsOverview from '@/views/internal/Donators/DonatorsOverview'
 import DonatorsEdit from '@/views/internal/Donators/DonatorsEdit'
 import DonatorsPrint from '@/views/print/DonatorsPrint'
 import DonatorsAddBankAccount from '@/views/internal/Donators/DonatorsAddBankAccount'
+import DonatorsAddTransactions from '@/views/internal/Donators/DonatorsAddTransactions'
 
 Vue.use(Router)
 
@@ -59,6 +60,12 @@ export default new Router({
           name: 'donatorsBankAccount',
           component: DonatorsAddBankAccount,
           props: (route) => ({ id: route.params.id, name: route.query.name })
+        },
+        {
+          path: 'donators/:id/bankaccount/:iban',
+          name: 'donatorsTransactions',
+          component: DonatorsAddTransactions,
+          props: true
         },
         {
           path: 'donators/create',

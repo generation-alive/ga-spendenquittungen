@@ -80,7 +80,7 @@ export const importTransactions = async (transactions) => {
       amount: _.toNumber(_.replace(betrag, ',', '.')),
       date: buchungstag,
       purpose: `${verwendungszweckzeile1}\n${verwendungszweckzeile2}`,
-      category: `${kategorie} - ${unterkategorie}`
+      category: `${kategorie} →→→ ${unterkategorie}`
     })
 
     // save into structuredData
