@@ -31,6 +31,25 @@
           <mdc-textfield v-model="donator.address.city" label="Ort" outline class="two-third"/>
         </div>
       </div>
+      <mdc-subheading>Bank Konten</mdc-subheading>
+      <div class="icon-row">
+        <mdc-icon class="icon-row__icon"/>
+        <div class="icon-row__content">
+          <mdc-grid-list with-support-text interactive ratio="1x1">
+            <mdc-grid-tile
+              v-for="bankAccount in bankAccounts" :key="bankAccount.iban"
+              :src="icons.account"
+              :title="newTransactionsLabel(bankAccount) + bankAccount.name"
+              :support-text="bankAccount.iban"
+            />
+            <mdc-grid-tile
+              :src="icons.add"
+              title="Bankkonto hinzufügen"
+              support-text=""
+            />
+          </mdc-grid-list>
+        </div>
+      </div>
       <mdc-subheading>Spenden</mdc-subheading>
       <div v-for="(donation, index) in donator.donations" :key="donation.id" class="icon-row">
         <span class="icon-row__icon icon-row__icon--text">{{index + 1}}</span>
@@ -75,11 +94,17 @@ import Donation from '@/store/models/Donation'
 import _ from 'lodash'
 import moment from 'moment'
 import uniqueId from '@/helpers/uniqueId'
+import account from '@/assets/account_balance-24px.svg'
+import add from '@/assets/add-24px.svg'
 
 export default {
   name: 'DonatorsEdit',
   data () {
     return {
+      icons: {
+        account,
+        add
+      },
       donator: new Donator()
     }
   },
@@ -103,6 +128,9 @@ export default {
       var donations = this.donator.donations
       donations = _.slice(donations, 0, donations.length - 1)
       return !_.some(donations, (donation) => !self.isValidDonationDate(donation))
+    },
+    bankAccounts () {
+      return this.donator && this.donator.bankAccounts
     }
   },
   props: {
@@ -112,6 +140,9 @@ export default {
     }
   },
   methods: {
+    newTransactionsLabel (bankAccount) {
+      return (bankAccount && bankAccount.transactions && bankAccount.transactions.length && `(${bankAccount.transactions.length}) `) || ''
+    },
     donationsWatcher (newDonations) {
       var self = this
       // auto add empty donation as last
@@ -153,7 +184,7 @@ export default {
     },
     idWatcher (newId) {
       if (newId) {
-        this.donator = _.cloneDeep(Donator.query().with('donations').with('address').find(newId))
+        this.donator = _.cloneDeep(Donator.query().with('donations').with('address').with('bankAccounts.transactions').find(newId))
       } else {
         this.donator = new Donator()
       }

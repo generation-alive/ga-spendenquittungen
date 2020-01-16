@@ -13,7 +13,8 @@ export default class BankAccount extends Model {
       iban: this.string(uniqueId),
       blz: this.string(''),
       name: this.string(''),
-      transactions: this.hasMany(Transaction, 'iban')
+      transactions: this.hasMany(Transaction, 'iban'),
+      donatorId: this.attr(null)
     }
   }
 }

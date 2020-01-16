@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { Model } from '@vuex-orm/core'
 import Address from './Address'
 import Donation from './Donation'
+import BankAccount from './BankAccount'
 import uniqueId from '@/helpers/uniqueId'
 
 export default class Donator extends Model {
@@ -14,7 +15,8 @@ export default class Donator extends Model {
       id: this.string(null, (id) => id || uniqueId()),
       name: this.string(''),
       address: this.morphOne(Address, 'ownerId', 'ownerType'),
-      donations: this.hasMany(Donation, 'donatorId')
+      donations: this.hasMany(Donation, 'donatorId'),
+      bankAccounts: this.hasMany(BankAccount, 'donatorId')
     }
   }
 
