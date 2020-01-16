@@ -12,7 +12,7 @@
           toggle-off="money_off"/>
       </div>
       <mdc-list two-line >
-        <mdc-list-item v-for="donator in filteredDonators" :key="donator.id">
+        <mdc-list-item v-for="donator in pagedDonators" :key="donator.id">
           <mdc-icon slot="start-detail" icon="account_circle" />
           <span>{{donator.name}}</span>
           <span slot="secondary">Summe: {{donator.totalSum | currency}}</span>
@@ -25,6 +25,7 @@
             </mdc-button>
           </template>
         </mdc-list-item>
+        <infinite-loading :identifier="infiniteId" @infinite="infiniteHandler"></infinite-loading>
       </mdc-list>
     </mdc-layout-cell>
     <mdc-fab class="fab" icon="add" @click="$router.push({name: 'donatorsCreate'})" />
@@ -34,13 +35,16 @@
 <script>
 import Donator from '@/store/models/Donator'
 import _ from 'lodash'
+import InfiniteLoading from 'vue-infinite-loading'
 
 export default {
   name: 'DonatorsOverview',
   data () {
     return {
       search: '',
-      donatorsWithSum: false
+      donatorsWithSum: false,
+      showItems: 0,
+      infiniteId: +new Date()
     }
   },
   computed: {
@@ -64,7 +68,33 @@ export default {
       } else {
         return this.searchedDonators
       }
+    },
+    pagedDonators () {
+      var end = _.min([this.showItems, this.filteredDonators.length])
+      return _.slice(this.filteredDonators, 0, end)
     }
+  },
+  methods: {
+    async infiniteHandler ($state) {
+      this.showItems += 10
+      await this.$nextTick()
+      if (this.showItems < this.filteredDonators.length) {
+        $state.loaded()
+      } else {
+        $state.complete()
+      }
+    },
+    resetPaging () {
+      this.showItems = 0
+      this.infiniteId += 1
+    }
+  },
+  watch: {
+    donatorsWithSum: 'resetPaging',
+    search: 'resetPaging'
+  },
+  components: {
+    InfiniteLoading
   }
 }
 </script>
