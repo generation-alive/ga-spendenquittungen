@@ -50,7 +50,8 @@ export const importTransactions = async (transactions) => {
       'Verwendungszweckzeile 1',
       'Verwendungszweckzeile 2',
       'Buchungstag',
-      'Kategorie'
+      'Kategorie',
+      'Unterkategorie'
     ], headerEl) ? _.camelCase(headerEl) : null)
   })
 
@@ -64,7 +65,8 @@ export const importTransactions = async (transactions) => {
     verwendungszweckzeile2,
     betrag,
     buchungstag,
-    kategorie
+    kategorie,
+    unterkategorie
   }) => {
     // initialize the data
     var accountData = structuredData[begunstigterAbsenderKontonummer] || {
@@ -78,7 +80,7 @@ export const importTransactions = async (transactions) => {
       amount: _.toNumber(_.replace(betrag, ',', '.')),
       date: buchungstag,
       purpose: `${verwendungszweckzeile1}\n${verwendungszweckzeile2}`,
-      category: kategorie
+      category: `${kategorie} - ${unterkategorie}`
     })
 
     // save into structuredData
