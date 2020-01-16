@@ -43,9 +43,15 @@
               :support-text="bankAccount.iban"
             />
             <mdc-grid-tile
+              v-if="id"
               :src="icons.add"
               title="Bankkonto hinzufügen"
               support-text=""
+              @click="$router.push({
+                name: 'donatorsBankAccount',
+                params: { id },
+                query: { name: donator.name }
+              })"
             />
           </mdc-grid-list>
         </div>

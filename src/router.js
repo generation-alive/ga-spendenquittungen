@@ -7,6 +7,7 @@ import SettingsEditOrganization from '@/views/internal/Settings/SettingsEditOrga
 import DonatorsOverview from '@/views/internal/Donators/DonatorsOverview'
 import DonatorsEdit from '@/views/internal/Donators/DonatorsEdit'
 import DonatorsPrint from '@/views/print/DonatorsPrint'
+import DonatorsAddBankAccount from '@/views/internal/Donators/DonatorsAddBankAccount'
 
 Vue.use(Router)
 
@@ -52,6 +53,12 @@ export default new Router({
           name: 'donatorsEdit',
           component: DonatorsEdit,
           props: true
+        },
+        {
+          path: 'donators/:id/bankaccount',
+          name: 'donatorsBankAccount',
+          component: DonatorsAddBankAccount,
+          props: (route) => ({ id: route.params.id, name: route.query.name })
         },
         {
           path: 'donators/create',
