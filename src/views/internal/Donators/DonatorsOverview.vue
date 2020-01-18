@@ -12,7 +12,7 @@
           toggle-off="money_off"/>
       </div>
       <mdc-list two-line >
-        <mdc-list-item v-for="donator in pagedDonators" :key="donator.id">
+        <mdc-list-item v-for="donator in pagedDonators" :key="donator.id" class="list-item">
           <mdc-icon slot="start-detail" icon="account_circle" />
           <span>{{donator.name}}</span>
           <span slot="secondary">Summe: {{donator.totalSum | currency}}</span>
@@ -22,6 +22,9 @@
             </mdc-button>
             <mdc-button @click="$router.push({name: 'donatorsEdit', params: {id: donator.id}})">
               <mdc-icon class="mdc-button__icon" icon="create" style="font-size: 20px; margin-right: 5px"/>
+            </mdc-button>
+            <mdc-button @click="donator.$delete()">
+              <mdc-icon class="mdc-button__icon" icon="delete" style="font-size: 20px; margin-right: 5px"/>
             </mdc-button>
           </template>
         </mdc-list-item>
@@ -114,4 +117,8 @@ export default {
   .search
     width: 100%
     padding-right: 1rem
+
+  .list-item /deep/ .mdc-list-item__meta
+    flex-grow: 0
+    flex-shrink: 0
 </style>

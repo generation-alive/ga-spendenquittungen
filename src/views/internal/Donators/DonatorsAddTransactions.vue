@@ -13,7 +13,7 @@
           trailing-icon="search" class="search"/>
       </div>
       <mdc-list two-line >
-        <mdc-list-item v-for="transaction in pagedTransactions" :key="transaction.id">
+        <mdc-list-item v-for="transaction in pagedTransactions" :key="transaction.id" class="list-item">
           <mdc-icon icon="money" slot="start-detail" />
           <span>{{transaction.purpose}}</span>
           <span slot="secondary">{{transaction.category}}</span>
@@ -154,4 +154,7 @@ export default {
     text-align: right
   .date
     width: 6.5rem
+  .list-item /deep/ .mdc-list-item__meta
+    flex-grow: 0
+    flex-shrink: 0
 </style>
