@@ -41,26 +41,24 @@
               :src="icons.account"
               :title="newTransactionsLabel(bankAccount) + bankAccount.name"
               :support-text="bankAccount.iban"
-              @click="$router.push({
-                name: 'donatorsTransactions',
-                params: { id, iban: bankAccount.iban },
-              })"
+              @click="onAddTransactions(bankAccount)"
             />
             <mdc-grid-tile
               v-if="id"
               :src="icons.add"
               title="Bankkonto hinzufügen"
               support-text=""
-              @click="$router.push({
-                name: 'donatorsBankAccount',
-                params: { id },
-                query: { name: donator.name }
-              })"
+              @click="onAddBankAccount"
             />
           </mdc-grid-list>
         </div>
       </div>
       <mdc-subheading>Spenden</mdc-subheading>
+      <div class="flex">
+        <mdc-button class="button" outlined @click="deleteAllDonations">
+          <i class="material-icons mdc-button__icon">delete_sweep</i>Spenden löschen
+        </mdc-button>
+      </div>
       <div v-for="(donation, index) in donator.donations" :key="donation.id" class="icon-row">
         <span class="icon-row__icon icon-row__icon--text">{{index + 1}}</span>
         <div class="icon-row__content">
@@ -219,7 +217,7 @@ export default {
     isValidDonationDate (donation) {
       return this.isValidDate(donation.date)
     },
-    async onSave () {
+    async saveDonator () {
       // check, if all data is valid
       let allValid = this.isAllDonationsValid
 
@@ -245,10 +243,35 @@ export default {
       if (!this.id) {
         donator.id = uniqueId()
       }
-      Donator.insert({
+      await Donator.insert({
         data: donator
       })
+      return true
+    },
+    async onSave () {
+      if (!await this.saveDonator()) return
       this.$router.push({ name: 'donatorsOverview' })
+    },
+    async onAddBankAccount () {
+      if (!await this.saveDonator()) return
+      this.$router.push({
+        name: 'donatorsBankAccount',
+        params: { id: this.id },
+        query: { name: this.donator.name }
+      })
+    },
+    async onAddTransactions (bankAccount) {
+      if (!await this.saveDonator()) return
+      this.$router.push({
+        name: 'donatorsTransactions',
+        params: { id: this.id, iban: bankAccount.iban }
+      })
+    },
+    async deleteAllDonations () {
+      for (var donation of this.donator.donations) {
+        donation.$delete && donation.$delete()
+      }
+      this.donator.donations = [{ id: _.uniqueId('new_'), date: '', sum: '', isMemberschipFee: false }]
     }
   },
   watch: {
@@ -306,4 +329,11 @@ export default {
   .toggle
     display: inline-flex
     margin-right: 1rem
+
+  .flex
+    display: flex
+    justify-content: flex-end
+    .button
+      flex-grow: 0
+      flex-shrink: 0
 </style>
