@@ -117,8 +117,8 @@ export default {
       // delete the transaction
       await Transaction.delete(transaction.id)
     },
-    deleteTransaction () {
-
+    async deleteTransaction (transaction) {
+      await Transaction.delete(transaction.id)
     }
   },
   watch: {
