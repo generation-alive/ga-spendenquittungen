@@ -58,10 +58,10 @@ export default {
       return _.sortBy(Donator.query().with('donations').all(), ['name'])
     },
     searchedDonators () {
-      if (this.search) {
+      if (this.donatorSearch) {
         var self = this
         return _.filter(this.donators, (donator) =>
-          _.includes(_.toUpper(donator.name), _.toUpper(self.search))
+          _.includes(_.toUpper(donator.name), _.toUpper(self.donatorSearch))
         )
       }
       return this.donators
@@ -97,7 +97,7 @@ export default {
   },
   watch: {
     donatorsWithSum: 'resetPaging',
-    search: 'resetPaging'
+    donatorSearch: 'resetPaging'
   },
   components: {
     InfiniteLoading
