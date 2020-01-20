@@ -31,6 +31,12 @@
           <mdc-textfield v-model="donator.address.city" label="Ort" outline class="two-third"/>
         </div>
       </div>
+      <div class="icon-row">
+        <mdc-icon class="icon-row__icon"/>
+        <div class="icon-row__content">
+          <mdc-checkbox label="Hat DSGVO unterzeichnet" v-model="donator.hasGdpr" />
+        </div>
+      </div>
       <mdc-subheading>Bank Konten</mdc-subheading>
       <div class="icon-row">
         <mdc-icon class="icon-row__icon"/>
