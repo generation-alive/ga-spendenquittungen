@@ -25,14 +25,15 @@ export const importDonators = (persons) => {
       var address = {
         street,
         houseNr,
-        zip: person.address.zip,
-        city: person.address.city
+        zip: person.address.zip || '',
+        city: person.address.city || ''
       }
     }
     return {
       id: person._id,
       name: person.name || _.trim(_.join([person.first_name, person.last_name], ' ')),
-      address
+      address,
+      hasGdpr: !!person.dsgvo_policy
     }
   })
   Donator.insertOrUpdate({ data: processedData })
