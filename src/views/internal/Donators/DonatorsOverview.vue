@@ -17,8 +17,11 @@
           <span>{{donator.name}}</span>
           <span slot="secondary">Summe: {{donator.totalSum | currency}}</span>
           <template slot="end-detail">
-            <mdc-button @click="$router.push({name: 'donatorsPrint', params: {id: donator.id}})">
+            <mdc-button v-if="donator.hasGdpr" @click="$router.push({name: 'donatorsPrint', params: {id: donator.id}})">
               <mdc-icon class="mdc-button__icon" icon="print" style="font-size: 20px; margin-right: 5px"/>
+            </mdc-button>
+            <mdc-button v-else @click="$router.push({name: 'donatorsPrint', params: {id: donator.id}})">
+              <mdc-icon class="mdc-button__icon" icon="print_disabled" style="font-size: 20px; margin-right: 5px"/>
             </mdc-button>
             <mdc-button @click="$router.push({name: 'donatorsEdit', params: {id: donator.id}})">
               <mdc-icon class="mdc-button__icon" icon="create" style="font-size: 20px; margin-right: 5px"/>
