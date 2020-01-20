@@ -16,7 +16,8 @@ export default class Donator extends Model {
       name: this.string(''),
       address: this.morphOne(Address, 'ownerId', 'ownerType'),
       donations: this.hasMany(Donation, 'donatorId'),
-      bankAccounts: this.hasMany(BankAccount, 'donatorId')
+      bankAccounts: this.hasMany(BankAccount, 'donatorId'),
+      hasGdpr: this.boolean(false)
     }
   }
 
