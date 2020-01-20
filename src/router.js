@@ -7,6 +7,7 @@ import SettingsEditOrganization from '@/views/internal/Settings/SettingsEditOrga
 import DonatorsOverview from '@/views/internal/Donators/DonatorsOverview'
 import DonatorsEdit from '@/views/internal/Donators/DonatorsEdit'
 import DonatorsPrint from '@/views/print/DonatorsPrint'
+import DonatorsPrintNoGdpr from '@/views/print/DonatorsPrintNoGdpr'
 import DonatorsAddBankAccount from '@/views/internal/Donators/DonatorsAddBankAccount'
 import DonatorsAddTransactions from '@/views/internal/Donators/DonatorsAddTransactions'
 
@@ -78,6 +79,12 @@ export default new Router({
       path: '/donators/:id/print',
       name: 'donatorsPrint',
       component: DonatorsPrint,
+      props: true
+    },
+    {
+      path: '/donators/:id/print-no-gdpr',
+      name: 'donatorsPrintNoGdpr',
+      component: DonatorsPrintNoGdpr,
       props: true
     },
     {
