@@ -5,7 +5,7 @@
     </mdc-layout-cell>
     <mdc-layout-cell desktop=6 tablet=6 phone=12 >
       <div class="tools">
-        <mdc-textfield v-model="search" label="Spender suchen" outline
+        <mdc-textfield v-model="donatorSearch" label="Spender suchen" outline
           trailing-icon="search" class="search"/>
         <mdc-icon-toggle v-model="donatorsWithSum"
           toggle-on="attach_money"
@@ -39,18 +39,21 @@
 import Donator from '@/store/models/Donator'
 import _ from 'lodash'
 import InfiniteLoading from 'vue-infinite-loading'
+import mapGettersMutations from '@/store/helpers/mapGettersMutations'
 
 export default {
   name: 'DonatorsOverview',
   data () {
     return {
-      search: '',
       donatorsWithSum: false,
       showItems: 0,
       infiniteId: +new Date()
     }
   },
   computed: {
+    ...mapGettersMutations([
+      { name: 'donatorSearch', namespace: 'entities/donators' }
+    ]),
     donators () {
       return _.sortBy(Donator.query().with('donations').all(), ['name'])
     },
