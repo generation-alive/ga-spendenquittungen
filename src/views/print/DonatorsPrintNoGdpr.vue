@@ -26,6 +26,56 @@
         </div>
       </div>
 
+      <div class="intro">
+        <div class="intro__title">
+          Liebe Freunde, Liebe Unterstützer,
+        </div>
+        <p class="intro__text mt1 mb1">
+          einige Zeit ist es her seitdem wir euch über die rechtliche
+          Verpflichtung und Änderung der Datenschutzerklärung (DSGVO) im Rahmen
+          von Generation Alive e.V. informiert haben.
+        </p>
+      </div>
+
+      <div class="text custom-margin">
+        <p>
+          Leider hat nur ein Teil auf diese Information mit einer
+          Einwilligung zum Aufrechthalten der persönlichen Daten in unserer Datenbank
+          reagiert. Dies verpflichtet uns gesetzlich dazu, alle anderen Kontakte von Freunden und Unterstützern aus unserer Datenbank unwiderruflich zu löschen.
+          Als logische Konsequenz hat das jedoch zur Folge, dass wir keinerlei Kontaktaufbau
+          weder auf postalischem noch digitalem Weg durchführen dürfen und jeglicher
+          Informationsfluss von uns zu diesen Personen auf allen Kommunikationsmedien
+          eingestellt werden muss.
+        </p>
+        <p class="mt2">
+          Daher möchten wir euch als Spender nochmal ausdrücklich darum bitten, die DSGVO unter folgender Post- oder Email Adresse zu bestätigen:
+        </p>
+        <p>
+          Generation Alive e.V.<br>
+          c/o Samuel Castro<br>
+          Eisenbahnstraße 23,<br>
+          51645 Gummersbach<br>
+          E-Mail info@generation-alive.org<br>
+        </p>
+        <p class="mt3">
+          Nur dann können wir euch die Spendenquittung für das letzte Jahr zuschicken.
+          Ansonsten werden wir eure Daten leider löschen müssen.
+        </p>
+        <p>
+          Digital kann dieser Einwilligung ebenfalls über folgendem Link zugestimmt werden:<br>
+          <a href="https://generation-alive.org/dsgvo">https://generation-alive.org/dsgvo</a>
+        </p>
+        <p>
+          Vielen Dank für euer Verständnis und jede Unterstützung.
+        </p>
+        <p>
+          Mit freundlichen Grüßen,
+        </p>
+        <p class="signature">
+          Samuel Castro
+        </p>
+      </div>
+
       <print-footer />
       <img v-if="overlayActive" :src="overlay" alt="" class="overlay">
     </div>
@@ -289,5 +339,26 @@ export default {
     text-align: center
   &--sum
     text-align: right
+
+.mt1
+  padding-top: 1 * $textMargin
+.mb1
+  padding-bottom: 1 * $textMargin
+.mt2
+  padding-top: 2 * $textMargin
+.mb2
+  padding-bottom: 2 * $textMargin
+.mt3
+  padding-top: 3 * $textMargin
+.mb3
+  padding-bottom: 3 * $textMargin
+.mt4
+  padding-top: 4 * $textMargin
+.mb4
+  padding-bottom: 4 * $textMargin
+.mt5
+  padding-top: 5 * $textMargin
+.mb5
+  padding-bottom: 5 * $textMargin
 
 </style>
