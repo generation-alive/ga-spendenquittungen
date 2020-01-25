@@ -85,6 +85,9 @@
             </mdc-icon-toggle>
             <span v-if="donation.isMemberschipFee">Mitgliedsbeitrag</span>
             <span v-else>Spende</span>
+            <mdc-button @click="deleteDonation(donation)" style="margin-left: 5px;">
+              <mdc-icon class="mdc-button__icon" icon="delete" style="font-size: 20px; margin-right: 5px"/>
+            </mdc-button>
           </div>
         </div>
       </div>
@@ -154,6 +157,14 @@ export default {
     }
   },
   methods: {
+    deleteDonation (donation) {
+      // delete the donation in the store
+      if (donation && donation.$delete) donation.$delete()
+
+      // delete the donation in temp donator
+      donation.date = ''
+      donation.sum = ''
+    },
     newTransactionsLabel (bankAccount) {
       return (bankAccount && bankAccount.transactions && bankAccount.transactions.length && `(${bankAccount.transactions.length}) `) || ''
     },
