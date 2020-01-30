@@ -97,12 +97,12 @@
       <img v-if="overlayActive" :src="overlay" alt="" class="overlay">
     </div>
 
-    <div class="page">
+    <div v-for="(pagedDonations, index) in donationChunks" :key="index" class="page">
       <print-logo />
       <div class="title-attachment">
         Anlage zur Sammelbestätigung
-        <span v-if="has3rdPage">
-          (1/2)
+        <span v-if="hasMultiplePages">
+          ({{index+1}}/{{donationChunks.length}})
         </span>
       </div>
       <p>vom {{date}}
@@ -124,7 +124,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="donation in donations2ndPage" :key="donation.id">
+          <tr v-for="donation in pagedDonations" :key="donation.id">
             <td class="cell--date">{{donation.date}}</td>
             <td class="cell--type">{{donation.isMemberschipFee ? 'Mitgliedsbeitrag' : 'Geldzuwendung'}}</td>
             <td class="cell--waive">{{donation.isWaiverOfRefund ? 'Ja' : 'Nein'}}</td>
@@ -133,7 +133,7 @@
         </tbody>
       </table>
 
-      <div v-if="!has3rdPage" class="total-sum">
+      <div v-if="index + 1 == donationChunks.length" class="total-sum">
         <div class="total-sum__left">Gesamtsumme:</div>
         <div class="total-sum__right">
           {{donator.totalSum | currency}}
@@ -143,55 +143,6 @@
         <div class="total-sum__left"></div>
         <div class="total-sum__right">
           Fortsetzung auf der nächsten Seite
-        </div>
-      </div>
-
-      <print-annotation />
-
-      <print-footer />
-      <img v-if="overlayActive" :src="overlay" alt="" class="overlay">
-    </div>
-
-    <div v-if="has3rdPage" class="page">
-      <print-logo />
-      <div class="title-attachment">
-        Anlage zur Sammelbestätigung
-        <span v-if="has3rdPage">
-          (2/2)
-        </span>
-      </div>
-      <p>vom {{date}}
-        <template v-if="donator"> für
-          {{donator.name}}<span v-if="donator.address">,
-            {{donator.address.street}} {{donator.address.houseNr}} in
-            {{donator.address.zip}} {{donator.address.city}}
-          </span>
-        </template>
-      </p>
-
-      <table class="donation-table">
-        <thead>
-          <tr>
-            <th class="cell--date">Datum</th>
-            <th class="cell--type">Art der Zuwendung</th>
-            <th class="cell--waive">Verzicht auf die Erstattung von Aufwendungen</th>
-            <th class="cell--sum">Betrag</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="donation in donations3rdPage" :key="donation.id">
-            <td class="cell--date">{{donation.date}}</td>
-            <td class="cell--type">{{donation.isMemberschipFee ? 'Mitgliedsbeitrag' : 'Geldzuwendung'}}</td>
-            <td class="cell--waive">{{donation.isWaiverOfRefund ? 'Ja' : 'Nein'}}</td>
-            <td class="cell--sum">{{donation.sum | currency}}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="total-sum">
-        <div class="total-sum__left">Gesamtsumme:</div>
-        <div class="total-sum__right">
-          {{donator.totalSum | currency}}
         </div>
       </div>
 
@@ -251,11 +202,8 @@ export default {
     donations () {
       return _.sortBy(this.donator.donations, [(donation) => moment(donation.date, 'DD.MM.YYYY').unix()])
     },
-    donations2ndPage () {
-      return _.slice(this.donations, 0, pageLimit)
-    },
-    donations3rdPage () {
-      return this.has3rdPage ? _.slice(this.donations, pageLimit) : []
+    donationChunks () {
+      return _.chunk(this.donations, pageLimit)
     },
     inWords () {
       let sum = _.round(this.donator.totalSum, 2)
@@ -274,7 +222,7 @@ export default {
     titleString () {
       return this.donator.name
     },
-    has3rdPage () {
+    hasMultiplePages () {
       return this.donations && this.donations.length > pageLimit
     }
   },
