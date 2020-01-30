@@ -344,7 +344,7 @@ export default {
   position: relative
   box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5)
   @media print
-    box-shadow: 0 0 0.5cm rgba(255, 255, 255, 1)
+    box-shadow: none
     margin: 0
 
 .overlay

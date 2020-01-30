@@ -47,6 +47,7 @@ export default {
 
   // Then, import required files
   @import "@material/typography/mixins";
+  @import "views/print/printVars.sass";
 
   html {
     width: 100%;
@@ -63,8 +64,8 @@ export default {
 
   @media print {
     body {
-      width: 21cm;
-      height: 29.7cm;
+      width: $a4width;
+      height: $a4height;
       margin: 0mm 0mm 0mm 0mm;
       /* change the margins as you want them to be. */
     }
