@@ -72,11 +72,13 @@
             v-model="donation.date"
             :valid="index === donator.donations.length - 1 || isValidDate(donation.date)"
             label="Datum" outline class="one-third"
+            @change="resortDonations(donation)"
           />
           <mdc-textfield
             v-model="donation.sum"
             :valid="index === donator.donations.length - 1 || isValidSum(donation.sum)"
             label="Betrag" outline class="one-third"
+            :ref="`sum-${donation.id}`"
           />
           <div class="toggle-container one-third">
             <mdc-icon-toggle class="toggle" v-model="donation.isMemberschipFee"
@@ -168,10 +170,9 @@ export default {
     newTransactionsLabel (bankAccount) {
       return (bankAccount && bankAccount.transactions && bankAccount.transactions.length && `(${bankAccount.transactions.length}) `) || ''
     },
-    donationsWatcher (newDonations) {
+    async resortDonations (donation) {
       var self = this
-      // auto add empty donation as last
-      var isLastFieldWithData = this.isDonationWithContent(_.last(newDonations))
+      var isLastFieldWithData = this.isDonationWithContent(_.last(this.donator.donations))
       if (isLastFieldWithData) {
         this.donator.donations.push({ id: _.uniqueId('new_'), date: '', sum: '', isMemberschipFee: false })
       }
@@ -200,6 +201,11 @@ export default {
           this.donator.donations = sortedDonations
         }
       }
+
+      if (!donation || !donation.id) return
+
+      await this.$nextTick()
+      _.first(this.$refs[`sum-${donation.id}`]).focus()
     },
     unixTimeOfDonation (donation) {
       return moment(donation.date, 'DD.MM.YYYY').unix()
@@ -295,14 +301,10 @@ export default {
     id: {
       handler: 'idWatcher',
       immediate: true
-    },
-    'donator.donations': {
-      handler: 'donationsWatcher',
-      deep: true,
-      immediate: true
     }
   },
   created () {
+    this.resortDonations()
   }
 }
 </script>
