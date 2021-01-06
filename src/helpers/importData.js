@@ -52,7 +52,10 @@ export const importTransactions = async (transactions) => {
       'Verwendungszweckzeile 2',
       'Buchungstag',
       'Kategorie',
-      'Unterkategorie'
+      'Unterkategorie',
+      'Splittbuchung - Kategorie',
+      'Splittbuchung - Originalbetrag',
+      'Splittbuchung - Unterkategorie'
     ], headerEl) ? _.camelCase(headerEl) : null)
   })
 
@@ -67,7 +70,10 @@ export const importTransactions = async (transactions) => {
     betrag,
     buchungstag,
     kategorie,
-    unterkategorie
+    unterkategorie,
+    splittbuchungKategorie,
+    splittbuchungOriginalbetrag,
+    splittbuchungUnterkategorie
   }) => {
     // initialize the data
     var accountData = structuredData[begunstigterAbsenderKontonummer] || {
@@ -78,10 +84,10 @@ export const importTransactions = async (transactions) => {
     }
     // add this transaction
     accountData.transactions.push({
-      amount: _.toNumber(_.replace(betrag, ',', '.')),
+      amount: _.toNumber(_.replace(splittbuchungOriginalbetrag || betrag, ',', '.')),
       date: buchungstag,
       purpose: `${verwendungszweckzeile1}\n${verwendungszweckzeile2}`,
-      category: `${kategorie} →→→ ${unterkategorie}`
+      category: `${splittbuchungKategorie || kategorie} →→→ ${splittbuchungUnterkategorie || unterkategorie}`
     })
 
     // save into structuredData
