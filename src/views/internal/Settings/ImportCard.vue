@@ -58,7 +58,7 @@ export default {
           await processor(result)
           self.$refs.snackbar.show({ message: '👌🏻 Daten erfolgreich importiert 👌🏻' })
         } catch (e) {
-          self.$refs.snackbar.show({ message: '❌ Etwas beim Import ist schiefgelaufen ❌' })
+          self.$refs.snackbar.show({ message: '❌ Etwas ist schiefgelaufen ❌' })
           console.error(e)
         }
       }

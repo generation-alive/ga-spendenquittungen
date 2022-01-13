@@ -10,7 +10,7 @@ export default class BankAccount extends Model {
 
   static fields () {
     return {
-      iban: this.string(uniqueId),
+      iban: this.string(uniqueId()),
       blz: this.string(''),
       name: this.string(''),
       transactions: this.hasMany(Transaction, 'iban'),
