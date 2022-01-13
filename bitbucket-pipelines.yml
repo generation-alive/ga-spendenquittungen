@@ -8,7 +8,7 @@ pipelines:
           caches:
             - node
           script:
-            - npm install -g npm latest; npm ci; npm rebuild node-sass
+            - npm install -g npm@6.14.10; npm ci; npm rebuild node-sass
             - npm run build
           artifacts:
             - dist/**
