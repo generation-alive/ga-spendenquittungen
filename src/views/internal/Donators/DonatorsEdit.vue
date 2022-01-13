@@ -166,6 +166,8 @@ export default {
       // delete the donation in temp donator
       donation.date = ''
       donation.sum = ''
+
+      this.removeEmptyDonations()
     },
     newTransactionsLabel (bankAccount) {
       return (bankAccount && bankAccount.transactions && bankAccount.transactions.length && `(${bankAccount.transactions.length}) `) || ''
@@ -177,16 +179,7 @@ export default {
         this.donator.donations.push({ id: _.uniqueId('new_'), date: '', sum: '', isMemberschipFee: false })
       }
 
-      // auto remove other empty donations
-      for (var index in this.donator.donations) {
-        if (
-          _.toNumber(index) !== _.toNumber(this.donator.donations.length - 1) &&
-          !this.isDonationWithContent(this.donator.donations[index])
-        ) {
-          _.pullAt(this.donator.donations, [index])
-          this.donator.donations = _.clone(this.donator.donations)
-        }
-      }
+      this.removeEmptyDonations()
 
       // if all data is valid, sort donations by date
       if (this.isAllDonationsDateValid) {
@@ -206,6 +199,17 @@ export default {
 
       await this.$nextTick()
       _.first(this.$refs[`sum-${donation.id}`]).focus()
+    },
+    removeEmptyDonations () {
+      for (var index in this.donator.donations) {
+        if (
+          _.toNumber(index) !== _.toNumber(this.donator.donations.length - 1) &&
+          !this.isDonationWithContent(this.donator.donations[index])
+        ) {
+          _.pullAt(this.donator.donations, [index])
+          this.donator.donations = _.clone(this.donator.donations)
+        }
+      }
     },
     unixTimeOfDonation (donation) {
       return moment(donation.date, 'DD.MM.YYYY').unix()
