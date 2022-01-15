@@ -146,8 +146,6 @@
         </div>
       </div>
 
-      <print-annotation />
-
       <print-footer />
       <img v-if="overlayActive" :src="overlay" alt="" class="overlay">
     </div>
