@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lint:report": "vue-cli-service lint --output-file eslint_report.json --format json || exit 0"
   },
   "dependencies": {
     "@vuex-orm/core": "^0.31.2",
